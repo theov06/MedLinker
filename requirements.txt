@@ -3,7 +3,12 @@ pytest>=7.0.0,<9.0.0
 fastapi>=0.104.0,<1.0.0
 uvicorn>=0.24.0,<1.0.0
 httpx>=0.25.0,<1.0.0  # For TestClient
+langgraph>=0.0.1  # For agentic orchestration
+scikit-learn>=1.0.0  # For TF-IDF fallback embeddings
 
-# Optional LLM providers (install as needed)
+# Optional dependencies (install as needed)
+# faiss-cpu>=1.7.0  # For FAISS RAG (optional)
+# sentence-transformers>=2.0.0  # For better embeddings (optional)
+# mlflow>=2.0.0  # For ML lifecycle tracking (optional)
 # google-generativeai>=0.3.0  # For Gemini
 # openai>=1.0.0  # For OpenAI

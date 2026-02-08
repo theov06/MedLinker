@@ -20,7 +20,8 @@ class GeminiClient(LLMClient):
         if not self.api_key:
             raise ValueError("GEMINI_API_KEY environment variable or api_key parameter required")
         
-        self.model = model or os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
+        # Try different model names (API has changed)
+        self.model = model or os.getenv("GEMINI_MODEL", "gemini-pro")
         
         # Import Gemini SDK
         try:

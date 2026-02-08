@@ -2,6 +2,7 @@
 
 import re
 import json
+import os
 from typing import List, Dict, Tuple, Optional
 
 from medlinker_ai.models import FacilityAnalysisOutput, RegionSummary, Citation
@@ -9,6 +10,13 @@ from medlinker_ai.utils import generate_trace_id
 from medlinker_ai.llm import get_llm_client
 from medlinker_ai.llm.fallback import FallbackClient
 from medlinker_ai.trace import start_trace, log_span, end_trace
+from medlinker_ai.mlflow_utils import (
+    start_mlflow_run,
+    end_mlflow_run,
+    log_params,
+    log_metrics,
+    set_tags
+)
 
 
 def keyword_match_score(query: str, text: str) -> int:
@@ -84,6 +92,8 @@ def retrieve_context(
 ) -> Dict[str, List]:
     """Retrieve relevant facilities and regions for question.
     
+    Uses RAG (FAISS) if enabled and available, otherwise falls back to keyword matching.
+    
     Args:
         question: User question
         facilities: List of facility outputs
@@ -93,6 +103,30 @@ def retrieve_context(
     Returns:
         Dictionary with selected_facilities and selected_regions
     """
+    # Try RAG retrieval first (if enabled)
+    try:
+        from medlinker_ai.rag import is_rag_available, retrieve as rag_retrieve
+        
+        if is_rag_available():
+            result = rag_retrieve(question, k_fac=k, k_reg=k)
+            if result is not None:
+                facility_ids, region_keys = result
+                
+                # Filter to retrieved IDs
+                selected_facilities = [f for f in facilities if f.facility_id in facility_ids]
+                selected_regions = [r for r in regions if f"{r.country}-{r.region}" in region_keys]
+                
+                # If we got results, return them
+                if selected_facilities or selected_regions:
+                    return {
+                        "selected_facilities": selected_facilities[:k],
+                        "selected_regions": selected_regions[:k]
+                    }
+    except Exception:
+        # RAG failed, fall back to keyword matching
+        pass
+    
+    # Fallback: keyword-based retrieval (current behavior)
     # Score facilities
     facility_scores = []
     for facility in facilities:
@@ -365,6 +399,16 @@ def answer_planner_question(
     Returns:
         Dictionary with answer, citations, and trace_id
     """
+    # Start MLflow run for Q&A
+    start_mlflow_run("planner_qa")
+    
+    # Log parameters
+    log_params({
+        "pipeline_version": "v0.6",
+        "llm_provider": llm_provider or os.environ.get("LLM_PROVIDER", "none"),
+        "question_length": len(question)
+    })
+    
     # Generate trace ID and start trace
     trace_id = generate_trace_id()
     start_trace(trace_id)
@@ -422,6 +466,24 @@ def answer_planner_question(
     
     # End trace
     end_trace(trace_id)
+    
+    # Log MLflow metrics
+    log_metrics({
+        "num_facilities": len(facilities),
+        "num_regions": len(regions),
+        "answer_length": len(answer),
+        "citations_count": len(citations)
+    })
+    
+    # Set tags
+    intent = detect_question_intent(question)
+    set_tags({
+        "question_intent": intent,
+        "trace_id": trace_id
+    })
+    
+    # End MLflow run
+    end_mlflow_run()
     
     return {
         "answer": answer,

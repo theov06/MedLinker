@@ -2,6 +2,7 @@
 
 import sys
 import json
+import os
 from pathlib import Path
 
 from medlinker_ai.models import FacilityDocInput, FacilityAnalysisOutput
@@ -11,6 +12,14 @@ from medlinker_ai.dataset import load_facility_docs_from_csv
 from medlinker_ai.aggregate import aggregate_regions
 from medlinker_ai.qa import answer_planner_question
 from medlinker_ai.trace import get_trace, list_recent_traces
+from medlinker_ai.mlflow_utils import (
+    start_mlflow_run,
+    end_mlflow_run,
+    log_params,
+    log_metrics,
+    log_artifacts,
+    set_tags
+)
 
 
 def extract_command(input_path: str) -> None:
@@ -93,6 +102,18 @@ def run_dataset_command(csv_path: str, limit: int = None) -> None:
         csv_path: Path to CSV file
         limit: Optional limit on number of rows
     """
+    # Start MLflow run
+    dataset_name = Path(csv_path).stem
+    start_mlflow_run(f"dataset_{dataset_name}")
+    
+    # Log parameters
+    log_params({
+        "dataset_name": dataset_name,
+        "pipeline_version": "v0.6",
+        "llm_provider": os.environ.get("LLM_PROVIDER", "none"),
+        "limit": limit if limit else "all"
+    })
+    
     # Load facilities from CSV
     print(f"Loading facilities from {csv_path}...", file=sys.stderr)
     facilities = load_facility_docs_from_csv(csv_path, limit=limit)
@@ -106,11 +127,16 @@ def run_dataset_command(csv_path: str, limit: int = None) -> None:
     
     # Process each facility
     print(f"Processing facilities...", file=sys.stderr)
+    status_counts = {"VERIFIED": 0, "INCOMPLETE": 0, "SUSPICIOUS": 0}
+    
     with open(output_file, 'w') as f:
         for i, doc in enumerate(facilities, 1):
             try:
                 analysis = verify_facility(doc)
                 f.write(json.dumps(analysis.model_dump()) + "\n")
+                
+                # Track status
+                status_counts[analysis.status] = status_counts.get(analysis.status, 0) + 1
                 
                 if i % 10 == 0:
                     print(f"  Processed {i}/{len(facilities)}", file=sys.stderr)
@@ -119,6 +145,20 @@ def run_dataset_command(csv_path: str, limit: int = None) -> None:
     
     print(f"\nOutput written to {output_file}", file=sys.stderr)
     print(f"Processed {len(facilities)} facilities", file=sys.stderr)
+    
+    # Log metrics
+    log_metrics({
+        "num_facilities": len(facilities),
+        "num_verified": status_counts.get("VERIFIED", 0),
+        "num_incomplete": status_counts.get("INCOMPLETE", 0),
+        "num_suspicious": status_counts.get("SUSPICIOUS", 0)
+    })
+    
+    # Log artifacts
+    log_artifacts([str(output_file)])
+    
+    # End MLflow run
+    end_mlflow_run()
 
 
 def aggregate_command(jsonl_path: str) -> None:
@@ -127,6 +167,15 @@ def aggregate_command(jsonl_path: str) -> None:
     Args:
         jsonl_path: Path to JSONL file with facility outputs
     """
+    # Start MLflow run
+    start_mlflow_run("region_aggregation")
+    
+    # Log parameters
+    log_params({
+        "pipeline_version": "v0.6",
+        "input_file": Path(jsonl_path).name
+    })
+    
     # Load facility outputs
     print(f"Loading facility outputs from {jsonl_path}...", file=sys.stderr)
     facility_outputs = []
@@ -155,11 +204,29 @@ def aggregate_command(jsonl_path: str) -> None:
     print(f"\nOutput written to {output_file}", file=sys.stderr)
     print(f"Aggregated {len(summaries)} regions", file=sys.stderr)
     
+    # Calculate metrics
+    if summaries:
+        avg_desert = sum(s.desert_score for s in summaries) / len(summaries)
+    else:
+        avg_desert = 0.0
+    
+    # Log metrics
+    log_metrics({
+        "num_regions": len(summaries),
+        "avg_desert_score": avg_desert
+    })
+    
+    # Log artifacts
+    log_artifacts([str(output_file)])
+    
     # Print top 5 regions by desert score
     print("\nTop 5 Medical Desert Regions:", file=sys.stderr)
     for i, summary in enumerate(summaries[:5], 1):
         print(f"{i}. {summary.country}-{summary.region}: Score {summary.desert_score}", file=sys.stderr)
         print(f"   Missing: {', '.join(summary.missing_critical[:3])}", file=sys.stderr)
+    
+    # End MLflow run
+    end_mlflow_run()
 
 
 def ask_command(facilities_path: str, regions_path: str, question: str) -> None:
@@ -263,6 +330,47 @@ def trace_list_command(limit: int = 10) -> None:
             print(f"{i}. {trace_id} (details unavailable)")
 
 
+def build_rag_index_command() -> None:
+    """Build RAG indexes from facilities and regions outputs."""
+    try:
+        from medlinker_ai.rag import build_indexes
+    except ImportError:
+        print("Error: RAG dependencies not installed. Install with: pip install scikit-learn", file=sys.stderr)
+        sys.exit(1)
+    
+    # Load facilities
+    facilities_path = Path("outputs/facilities.jsonl")
+    if not facilities_path.exists():
+        print(f"Error: {facilities_path} not found. Run 'run_dataset' first.", file=sys.stderr)
+        sys.exit(1)
+    
+    print(f"Loading facilities from {facilities_path}...", file=sys.stderr)
+    facilities = []
+    with open(facilities_path, 'r') as f:
+        for line in f:
+            if line.strip():
+                data = json.loads(line)
+                facilities.append(FacilityAnalysisOutput(**data))
+    
+    # Load regions
+    regions_path = Path("outputs/regions.json")
+    regions = []
+    if regions_path.exists():
+        print(f"Loading regions from {regions_path}...", file=sys.stderr)
+        with open(regions_path, 'r') as f:
+            regions_data = json.load(f)
+        
+        from medlinker_ai.models import RegionSummary
+        regions = [RegionSummary(**r) for r in regions_data]
+    
+    # Build indexes
+    print("Building RAG indexes...", file=sys.stderr)
+    build_indexes(facilities, regions, out_dir="outputs/faiss")
+    
+    print("\nRAG indexes built successfully!", file=sys.stderr)
+    print("To enable RAG retrieval, set: export RAG_ENABLED=1", file=sys.stderr)
+
+
 def main() -> None:
     """Main CLI entry point."""
     if len(sys.argv) < 2:
@@ -340,6 +448,8 @@ def main() -> None:
         else:
             print(f"Error: Unknown trace subcommand: {subcommand}", file=sys.stderr)
             sys.exit(1)
+    elif command == "build_rag_index":
+        build_rag_index_command()
     else:
         print(f"Error: Unknown command: {command}", file=sys.stderr)
         sys.exit(1)

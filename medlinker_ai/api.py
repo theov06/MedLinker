@@ -1,12 +1,14 @@
 """FastAPI backend for MedLinker AI."""
 
 import json
+import logging
 from pathlib import Path
 from typing import List, Optional
+from urllib.parse import unquote
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from medlinker_ai.models import (
     FacilityAnalysisOutput,
@@ -15,6 +17,11 @@ from medlinker_ai.models import (
 )
 from medlinker_ai.qa import answer_planner_question
 from medlinker_ai.trace import get_trace, TraceRun
+
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 # Initialize FastAPI app
@@ -37,7 +44,11 @@ app.add_middleware(
 # Request/Response models
 class AskRequest(BaseModel):
     """Request model for Q&A endpoint."""
-    question: str
+    question: str = Field(
+        ...,
+        description="Question to answer about healthcare facilities and regions",
+        json_schema_extra={"example": "Which regions have the highest desert score?"}
+    )
 
 
 class AskResponse(BaseModel):
@@ -132,6 +143,9 @@ def root():
 def get_facilities():
     """Get all facility analysis outputs.
     
+    Returns all processed healthcare facilities with extracted capabilities,
+    verification status, confidence scores, and citations to source data.
+    
     Returns:
         List of facility analysis outputs with extracted capabilities,
         verification status, and citations.
@@ -143,6 +157,9 @@ def get_facilities():
 def get_regions():
     """Get all regional summaries with medical desert scores.
     
+    Returns regional aggregations showing healthcare coverage, missing
+    critical services, and desert scores (0-100, higher = worse).
+    
     Returns:
         List of regional summaries with desert scores, missing capabilities,
         and coverage statistics.
@@ -152,7 +169,11 @@ def get_regions():
 
 @app.post("/ask", response_model=AskResponse)
 def ask_question(request: AskRequest):
-    """Answer planner question using facility and region data.
+    """Answer planner question with grounded citations.
+    
+    This endpoint answers questions about healthcare facilities and regions
+    using the processed data. All answers include citations to source data
+    and a trace_id for full auditability.
     
     Args:
         request: Question request with question text
@@ -163,11 +184,14 @@ def ask_question(request: AskRequest):
     Raises:
         HTTPException: If data not available or question invalid
     """
+    # Validate question
     if not request.question or not request.question.strip():
         raise HTTPException(
             status_code=400,
-            detail="Question cannot be empty"
+            detail="Question must be a non-empty string."
         )
+    
+    logger.info(f"[/ask] Question received: {request.question[:100]}")
     
     # Load data
     try:
@@ -176,37 +200,87 @@ def ask_question(request: AskRequest):
     except HTTPException:
         raise
     except Exception as e:
+        logger.error(f"[/ask] Error loading data: {str(e)}")
         raise HTTPException(
             status_code=500,
             detail=f"Error loading data: {str(e)}"
         )
     
+    # Check for RAG
+    rag_enabled = False
+    try:
+        from medlinker_ai.rag import is_rag_available
+        rag_enabled = is_rag_available()
+        if rag_enabled:
+            logger.info("[/ask] RAG retrieval: ENABLED")
+        else:
+            logger.info("[/ask] RAG retrieval: DISABLED")
+    except ImportError:
+        logger.info("[/ask] RAG retrieval: NOT INSTALLED (using keyword matching)")
+    except Exception as e:
+        logger.warning(f"[/ask] RAG check failed: {str(e)}, falling back to keyword matching")
+    
+    # Check for orchestrator
+    orchestrator_enabled = False
+    try:
+        from medlinker_ai.orchestrator import run_ask_flow, is_orchestrator_enabled
+        orchestrator_enabled = is_orchestrator_enabled()
+        if orchestrator_enabled:
+            logger.info("[/ask] LangGraph orchestration: ENABLED")
+        else:
+            logger.info("[/ask] LangGraph orchestration: DISABLED")
+    except ImportError:
+        logger.info("[/ask] LangGraph orchestration: NOT INSTALLED (using direct calls)")
+    except Exception as e:
+        logger.warning(f"[/ask] Orchestrator check failed: {str(e)}, falling back to direct calls")
+    
     # Answer question
     try:
-        result = answer_planner_question(
-            request.question,
-            facilities,
-            regions
-        )
+        if orchestrator_enabled:
+            result = run_ask_flow(
+                request.question,
+                facilities,
+                regions
+            )
+        else:
+            result = answer_planner_question(
+                request.question,
+                facilities,
+                regions
+            )
     except Exception as e:
+        logger.error(f"[/ask] Error answering question: {str(e)}")
         raise HTTPException(
             status_code=500,
             detail=f"Error answering question: {str(e)}"
         )
     
+    # Ensure result has required fields
+    if not result or "answer" not in result or "citations" not in result or "trace_id" not in result:
+        logger.error(f"[/ask] Invalid result format: {result}")
+        raise HTTPException(
+            status_code=500,
+            detail="Internal error: Invalid response format"
+        )
+    
+    logger.info(f"[/ask] Answer generated with trace_id: {result['trace_id']}")
+    
     return AskResponse(
         answer=result["answer"],
-        citations=result["citations"],
+        citations=result["citations"] or [],  # Ensure citations is never None
         trace_id=result["trace_id"]
     )
 
 
 @app.get("/trace/{trace_id}", response_model=TraceRun)
 def get_trace_by_id(trace_id: str):
-    """Get trace details by trace ID.
+    """Inspect reasoning trace returned by /ask.
+    
+    Use this endpoint to view the complete reasoning trace for a question,
+    including all pipeline steps, evidence references, and timing information.
     
     Args:
-        trace_id: Unique trace identifier
+        trace_id: Unique trace identifier (UUID format, e.g., "a5ad364e-9e1f-40cb-9499-74572975ede9")
         
     Returns:
         Complete trace with all spans in chronological order
@@ -214,12 +288,21 @@ def get_trace_by_id(trace_id: str):
     Raises:
         HTTPException: If trace not found
     """
+    # Sanitize trace_id input
+    # Strip whitespace, quotes, and URL-decode
+    trace_id = trace_id.strip()
+    trace_id = trace_id.strip('"').strip("'")
+    trace_id = unquote(trace_id)
+    
+    logger.info(f"[/trace] Looking up trace_id: {trace_id}")
+    
     trace = get_trace(trace_id)
     
     if not trace:
+        logger.warning(f"[/trace] Trace not found: {trace_id}")
         raise HTTPException(
             status_code=404,
-            detail=f"Trace not found: {trace_id}"
+            detail="Trace not found. Make sure you copied the trace_id exactly (without quotes)."
         )
     
     return trace

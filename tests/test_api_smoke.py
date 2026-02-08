@@ -329,3 +329,97 @@ def test_ask_response_schema(client, setup_test_data):
         
         # Snippet length constraint
         assert len(citation["snippet"]) <= 500
+
+
+def test_ask_minimal_payload(client, setup_test_data):
+    """Test /ask with minimal valid payload."""
+    response = client.post(
+        "/ask",
+        json={"question": "What is the status?"}
+    )
+    
+    assert response.status_code == 200
+    data = response.json()
+    assert "answer" in data
+    assert "citations" in data
+    assert "trace_id" in data
+    assert isinstance(data["citations"], list)
+
+
+def test_ask_empty_question(client, setup_test_data):
+    """Test /ask with empty question returns 400."""
+    response = client.post(
+        "/ask",
+        json={"question": ""}
+    )
+    
+    assert response.status_code == 400
+    assert "non-empty string" in response.json()["detail"]
+
+
+def test_ask_whitespace_only_question(client, setup_test_data):
+    """Test /ask with whitespace-only question returns 400."""
+    response = client.post(
+        "/ask",
+        json={"question": "   "}
+    )
+    
+    assert response.status_code == 400
+    assert "non-empty string" in response.json()["detail"]
+
+
+def test_trace_with_quoted_id(client, setup_test_data):
+    """Test /trace with quoted trace_id."""
+    # First get a valid trace_id
+    response = client.post(
+        "/ask",
+        json={"question": "What regions exist?"}
+    )
+    assert response.status_code == 200
+    trace_id = response.json()["trace_id"]
+    
+    # Test with quotes
+    response_quoted = client.get(f'/trace/"{trace_id}"')
+    response_normal = client.get(f'/trace/{trace_id}')
+    
+    # Both should work
+    assert response_quoted.status_code == 200
+    assert response_normal.status_code == 200
+    
+    # Should return same trace
+    assert response_quoted.json()["trace_id"] == response_normal.json()["trace_id"]
+
+
+def test_trace_with_url_encoded_id(client, setup_test_data):
+    """Test /trace with URL-encoded trace_id."""
+    from urllib.parse import quote
+    
+    # First get a valid trace_id
+    response = client.post(
+        "/ask",
+        json={"question": "What regions exist?"}
+    )
+    assert response.status_code == 200
+    trace_id = response.json()["trace_id"]
+    
+    # Test with URL encoding
+    encoded_id = quote(trace_id)
+    response_encoded = client.get(f'/trace/{encoded_id}')
+    response_normal = client.get(f'/trace/{trace_id}')
+    
+    # Both should work
+    assert response_encoded.status_code == 200
+    assert response_normal.status_code == 200
+    
+    # Should return same trace
+    assert response_encoded.json()["trace_id"] == response_normal.json()["trace_id"]
+
+
+def test_trace_not_found_message(client):
+    """Test /trace with invalid trace_id returns helpful message."""
+    response = client.get("/trace/invalid-trace-id-12345")
+    
+    assert response.status_code == 404
+    detail = response.json()["detail"]
+    assert "Trace not found" in detail
+    assert "without quotes" in detail
