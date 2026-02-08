@@ -127,11 +127,15 @@ def detect_question_intent(question: str) -> str:
         question: User question
         
     Returns:
-        Intent type: desert, suspicious, incomplete, capability, general
+        Intent type: desert_ranking, desert, suspicious, incomplete, capability, general
     """
     question_lower = question.lower()
     
-    if any(kw in question_lower for kw in ["lack", "missing", "desert", "gap", "shortage"]):
+    # Check for ranking queries first (top/highest/worst/rank)
+    if any(kw in question_lower for kw in ["top", "highest", "worst", "rank", "most"]) and \
+       any(kw in question_lower for kw in ["desert", "score"]):
+        return "desert_ranking"
+    elif any(kw in question_lower for kw in ["lack", "missing", "desert", "gap", "shortage"]):
         return "desert"
     elif any(kw in question_lower for kw in ["suspicious", "inconsistent", "contradiction"]):
         return "suspicious"
@@ -161,7 +165,38 @@ def generate_fallback_answer(
     intent = detect_question_intent(question)
     citations = []
     
-    if intent == "desert":
+    if intent == "desert_ranking":
+        # Ranking query - show top N regions by desert score
+        # Extract number if present (e.g., "top 3", "top 5")
+        match = re.search(r'top\s+(\d+)', question.lower())
+        limit = int(match.group(1)) if match else 5
+        
+        # Sort all regions by desert score (highest first)
+        sorted_regions = sorted(selected_regions, key=lambda r: r.desert_score, reverse=True)
+        top_regions = sorted_regions[:limit]
+        
+        if not top_regions:
+            answer = "No regional data available."
+        else:
+            answer = f"Top {len(top_regions)} regions by desert score:\n\n"
+            for i, region in enumerate(top_regions, 1):
+                severity = "high" if region.desert_score >= 50 else "moderate" if region.desert_score >= 30 else "low"
+                answer += f"{i}. {region.country}-{region.region}: Desert score {region.desert_score} ({severity})\n"
+                if region.missing_critical:
+                    answer += f"   Missing: {', '.join(region.missing_critical[:3])}\n"
+                
+                # Create citation for each region
+                snippet = f"Region: {region.country}-{region.region}; desert_score: {region.desert_score}; missing_critical: {', '.join(region.missing_critical[:5])}"
+                if len(snippet) > 500:
+                    snippet = snippet[:497] + "..."
+                
+                citations.append(Citation(
+                    source_id="regions_aggregate",
+                    snippet=snippet,
+                    field="region_summary"
+                ))
+    
+    elif intent == "desert":
         # Medical desert query
         high_deserts = [r for r in selected_regions if r.desert_score >= 50]
         
