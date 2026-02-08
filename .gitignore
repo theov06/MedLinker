@@ -43,3 +43,7 @@ htmlcov/
 .DS_Store
 Thumbs.db
 outputs/
+
+# Environment variables
+.env
+.env.local

@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import List, Optional
 from urllib.parse import unquote
 
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -18,6 +19,9 @@ from medlinker_ai.models import (
 from medlinker_ai.qa import answer_planner_question
 from medlinker_ai.trace import get_trace, TraceRun
 
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

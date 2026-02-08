@@ -1,5 +1,5 @@
 // Chatbot.jsx - Database Consultation Interface
-import { Send, Database, Zap, Cpu, Save, Upload, Trash2 } from "lucide-react";
+import { Send, Database, Zap, Cpu, Save, Upload, Trash2, Mic } from "lucide-react";
 import { useState, useEffect } from "react";
 import { apiService } from "../../services/api";
 import { formatAnswer, formatCitations, enhanceAnswer } from "../../utils/responseFormatter";
@@ -25,6 +25,7 @@ export function Chatbot() {
     const [facilityNameMap, setFacilityNameMap] = useState(new Map());
     const [regionNameMap, setRegionNameMap] = useState(new Map());
     const [saveStatus, setSaveStatus] = useState('');
+    const [isRecording, setIsRecording] = useState(false);
 
     useEffect(() => {
         // Load facility and region counts
@@ -193,6 +194,13 @@ export function Chatbot() {
         }
     };
 
+    const handleMicClick = () => {
+        // Placeholder for voice recording functionality
+        setIsRecording(!isRecording);
+        // TODO: Implement Web Speech API or similar
+        console.log('Microphone clicked - voice recording not yet implemented');
+    };
+
     return (
         <div className="h-full flex flex-col p-6">
             {/* Header */}
@@ -317,13 +325,26 @@ export function Chatbot() {
             {/* Input Area */}
             <div className="border border-main bg-panel">
                 <div className="p-3">
-                    <textarea
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        onKeyPress={handleKeyPress}
-                        placeholder="Ask about facility capacity, equipment status, doctor availability, or run custom SQL queries..."
-                        className="w-full h-20 p-3 border border-soft bg-white text-[14px] resize-none focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
-                    />
+                    <div className="relative">
+                        <textarea
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            onKeyPress={handleKeyPress}
+                            placeholder="Ask about facility capacity, equipment status, doctor availability, or run custom SQL queries..."
+                            className="w-full h-20 p-3 pr-12 border border-soft bg-white text-[14px] resize-none focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                        />
+                        <button
+                            onClick={handleMicClick}
+                            className={`absolute right-3 top-3 p-2 rounded-full transition-all duration-150 ${
+                                isRecording 
+                                    ? 'bg-red-500 text-white animate-pulse' 
+                                    : 'bg-slate-100 text-secondary hover:bg-slate-200'
+                            }`}
+                            title="Voice input (not yet implemented)"
+                        >
+                            <Mic size={16} />
+                        </button>
+                    </div>
                     <div className="flex items-center justify-between mt-3">
                         <div className="flex items-center gap-2">
                             <Cpu size={14} className="text-secondary" />

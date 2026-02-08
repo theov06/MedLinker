@@ -186,6 +186,15 @@ Q&A system with grounded responses:
 
 ### Environment Variables
 
+Create a `.env` file in the project root (never commit this file):
+
+```bash
+OPENAI_API_KEY=your_api_key_here
+LLM_PROVIDER=openai
+RAG_ENABLED=1
+ORCHESTRATOR=langgraph
+```
+
 **LLM_PROVIDER**
 - Options: `none`, `openai`, `gemini`
 - Default: `none` (uses deterministic fallback)
@@ -200,6 +209,8 @@ Q&A system with grounded responses:
 
 **MLFLOW_TRACKING_URI**
 - MLflow server URL for experiment tracking
+
+**Security Note:** Never commit API keys to version control. Use `.env` files (already in .gitignore) or environment variables.
 
 ## Testing
 
