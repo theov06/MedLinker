@@ -1,0 +1,11 @@
+{
+  "facility_id": "GH-NTH-088",
+  "facility_name": "Tamale Regional Medical Center",
+  "country": "Ghana",
+  "region": "Northern",
+  "source_id": "pdf_extract_annual_report_2025",
+  "source_type": "pdf",
+  "source_text": "TAMALE REGIONAL MEDICAL CENTER - 2025 ANNUAL REPORT\n\nSurgical Department:\nPerformed 450 major surgeries including appendectomies, hernia repairs, cesarean sections. Our surgical team includes 8 general surgeons. Operating theater equipped with modern anesthesia machines and monitoring equipment.\n\nDiagnostics:\nX-ray available daily. Ultrasound machine (donated 2023, functional). Laboratory can perform CBC, malaria tests, basic chemistry. CT scanner installation planned for 2027.\n\nChallenges:\nFrequent power outages affect equipment reliability. Generator fuel costs strain budget. Staff shortage - currently no anesthesiologist on permanent staff, relying on visiting specialists twice monthly. This limits our surgical capacity significantly.\n\nEmergency Department:\nOperates 24/7 but limited to stabilization and referral for complex cases due to staffing constraints.",
+  "source_url": "https://tamalemedical.gov.gh/reports/2025_annual.pdf",
+  "timestamp": "2026-01-20T11:45:00Z"
+}

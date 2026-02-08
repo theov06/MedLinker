@@ -1,0 +1,11 @@
+{
+  "facility_id": "GH-ACC-001",
+  "facility_name": "Korle Bu Teaching Hospital",
+  "country": "Ghana",
+  "region": "Greater Accra",
+  "source_id": "web_scrape_20260201_001",
+  "source_type": "website",
+  "source_text": "Korle Bu Teaching Hospital - Ghana's Premier Referral Center\n\nServices Available:\n- General Surgery (24/7 emergency)\n- Cardiothoracic surgery unit\n- Pediatric care including NICU\n- Maternity services with C-section capability\n- Outpatient clinics Mon-Fri 8am-5pm, Emergency 24/7\n\nOur Facilities:\nWe have modern CT scanner, MRI machine (currently under maintenance), X-ray units, ultrasound machines, and laboratory services. The hospital is equipped with 2 operating theaters for major surgeries.\n\nMedical Staff:\n- 45 specialist doctors including surgeons, pediatricians, obstetricians\n- 120 registered nurses\n- 15 anesthesiologists on rotation\n- Laboratory technicians and radiographers\n\nReferral Services:\nWe accept referrals from all district hospitals across Ghana for complex cases requiring tertiary care. Our ambulance service operates 24/7 for critical transfers.\n\nNote: Some equipment may be temporarily unavailable due to maintenance schedules. Please call ahead for specific service availability.",
+  "source_url": "https://korlebu.gov.gh/services",
+  "timestamp": "2026-02-01T14:30:00Z"
+}
