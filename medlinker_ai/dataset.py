@@ -2,9 +2,39 @@
 
 import csv
 import json
-from typing import List, Optional, Any
+from typing import List, Optional, Any, Dict
 
 from medlinker_ai.models import FacilityDocInput
+
+
+def load_coordinates_map(coords_csv_path: str = "Updated_long_and_lat_on_VF_Gh.csv") -> Dict[str, tuple]:
+    """Load facility coordinates from CSV file.
+    
+    Args:
+        coords_csv_path: Path to coordinates CSV file
+        
+    Returns:
+        Dictionary mapping facility_name to (latitude, longitude)
+    """
+    coords_map = {}
+    
+    try:
+        with open(coords_csv_path, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                facility_name = row.get("facility_name", "").strip()
+                latitude = row.get("latitude", "").strip()
+                longitude = row.get("longitude", "").strip()
+                
+                if facility_name and latitude and longitude:
+                    try:
+                        coords_map[facility_name] = (float(latitude), float(longitude))
+                    except ValueError:
+                        continue
+    except FileNotFoundError:
+        print(f"Warning: Coordinates file {coords_csv_path} not found. Facilities will not have GPS coordinates.")
+    
+    return coords_map
 
 
 def safe_parse_json_list(value: str) -> List[str]:
@@ -77,17 +107,22 @@ def build_source_text(row: dict) -> str:
 
 def load_facility_docs_from_csv(
     csv_path: str,
-    limit: Optional[int] = None
+    limit: Optional[int] = None,
+    coords_csv_path: str = "Updated_long_and_lat_on_VF_Gh.csv"
 ) -> List[FacilityDocInput]:
     """Load facility documents from CSV file.
     
     Args:
         csv_path: Path to CSV file
         limit: Optional limit on number of rows to load
+        coords_csv_path: Path to coordinates CSV file
         
     Returns:
         List of FacilityDocInput objects
     """
+    # Load coordinates map
+    coords_map = load_coordinates_map(coords_csv_path)
+    
     facilities = []
     
     with open(csv_path, 'r', encoding='utf-8') as f:
@@ -97,14 +132,36 @@ def load_facility_docs_from_csv(
             if limit is not None and i >= limit:
                 break
             
-            # Extract required fields
-            facility_id = row.get("id", f"FACILITY-{i+1:04d}")
-            facility_name = row.get("name", "Unknown Facility")
+            # Extract facility name (column B in CSV)
+            facility_name = row.get("name", "").strip()
+            if not facility_name:
+                facility_name = f"Facility {i+1}"
             
-            # Extract location (try to parse country/region)
-            location = row.get("location", "")
-            country = row.get("country", "Ghana")  # Default to Ghana
-            region = row.get("region", location.split(",")[0] if location else "Unknown")
+            # Extract facility ID
+            facility_id = row.get("pk_unique_id", "").strip()
+            if not facility_id:
+                facility_id = f"FACILITY-{i+1:04d}"
+            
+            # Extract location information
+            # Try multiple location fields
+            address_city = row.get("address_city", "").strip()
+            address_region = row.get("address_stateOrRegion", "").strip()
+            address_country = row.get("address_country", "").strip()
+            
+            # Handle "null" string values
+            if address_city.lower() == "null":
+                address_city = ""
+            if address_region.lower() == "null":
+                address_region = ""
+            if address_country.lower() == "null":
+                address_country = ""
+            
+            # Build region and country
+            region = address_region or address_city or "Unknown Region"
+            country = address_country or "Ghana"  # Default to Ghana
+            
+            # Get coordinates from coords map
+            latitude, longitude = coords_map.get(facility_name, (None, None))
             
             # Build source text
             source_text = build_source_text(row)
@@ -118,8 +175,10 @@ def load_facility_docs_from_csv(
                 source_id=f"csv_row_{i+1}",
                 source_type="dataset_row",
                 source_text=source_text,
-                source_url=None,
-                timestamp=None
+                source_url=row.get("source_url"),
+                timestamp=None,
+                latitude=latitude,
+                longitude=longitude
             )
             
             facilities.append(doc)

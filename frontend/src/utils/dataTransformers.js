@@ -1,9 +1,27 @@
 // src/utils/dataTransformers.js
 
+// Real GPS coordinates from Ghana facilities
+const GHANA_COORDINATES = [
+  { lat: 5.5868921, lng: -0.1850474 },  // 37 Military Hospital
+  { lat: 5.5693943, lng: -0.1864212 },  // Accra Medical Centre
+  { lat: 5.6133632, lng: -0.2153329 },  // Accra Physiotherapy & Sports Injury Clinic
+  { lat: 5.5633229, lng: -0.2045791 },  // Accra Psychiatric Hospital
+  { lat: 5.6298307, lng: -0.2171964 },  // Achimota Hospital
+  { lat: 5.7060649, lng: -0.1681089 },  // Adenta Clinic
+  { lat: 6.7965698, lng: -1.0855078 },  // Agogo Presbyterian Hospital
+  { lat: 6.5383038, lng: -0.7672659 },  // Agyakwa Hospital
+];
+
 // Transform API facility data to frontend format
 export function transformFacility(apiFacility) {
   const {
     facility_id,
+    facility_name,
+    location,
+    region,
+    country,
+    latitude,
+    longitude,
     extracted_capabilities,
     status,
     confidence,
@@ -13,9 +31,10 @@ export function transformFacility(apiFacility) {
   // Extract services and equipment
   const services = extracted_capabilities?.services || [];
   const equipment = extracted_capabilities?.equipment || [];
+  const staffing = extracted_capabilities?.staffing || [];
   
-  // Generate a readable name
-  const name = facility_id.replace(/-/g, ' ').replace(/(^|\s)\S/g, l => l.toUpperCase());
+  // Use real facility name from backend
+  const name = facility_name || facility_id;
   
   // Map status values
   const statusMap = {
@@ -27,30 +46,44 @@ export function transformFacility(apiFacility) {
   const frontendStatus = statusMap[status] || 'moderate';
   
   // Generate random but consistent values for visualization
-  // (These would ideally come from the backend)
-  const seed = parseInt(facility_id.replace(/\D/g, '').slice(0, 3)) || 100;
+  const seed = parseInt(facility_id.toString().replace(/\D/g, '').slice(0, 3)) || 100;
+  
+  // Use real coordinates from backend if available, otherwise pick from Ghana coordinates pool
+  let facilityLat, facilityLng;
+  if (latitude && longitude) {
+    facilityLat = latitude;
+    facilityLng = longitude;
+  } else {
+    // Use seed to consistently pick a coordinate from the pool
+    const coordIndex = seed % GHANA_COORDINATES.length;
+    facilityLat = GHANA_COORDINATES[coordIndex].lat;
+    facilityLng = GHANA_COORDINATES[coordIndex].lng;
+  }
   
   return {
     id: facility_id,
     name,
-    specialty: services[0] || 'General',
+    location: location || `${region}, ${country}`,
+    specialty: services[0] || 'General Healthcare',
     rating: confidence === 'HIGH' ? 4.5 + (seed % 50) / 100 : 
             confidence === 'MEDIUM' ? 3.5 + (seed % 50) / 100 : 
             2.5 + (seed % 50) / 100,
     distance: `${1 + (seed % 20)}.${seed % 10} mi`,
     status: frontendStatus,
-    doctors: 10 + (seed % 100),
+    doctors: staffing.length > 0 ? 10 + (seed % 100) : 0,
     patientCapacity: 50 + (seed % 300),
     waitTime: `${15 + (seed % 60)} min`,
-    lat: 39.8283 + (seed % 1000) / 1000 - 5,
-    lng: -98.5795 + (seed % 1000) / 1000 - 10,
+    lat: facilityLat,
+    lng: facilityLng,
     equipment: equipment.slice(0, 5),
     specialties: services.slice(0, 3),
     lastUpdated: 'Just now',
     // Original API data for details
     apiData: apiFacility,
     confidence,
-    citationsCount: citations.length
+    citationsCount: citations.length,
+    region,
+    country
   };
 }
 

@@ -388,8 +388,22 @@ def verify_facility(
     # End trace
     end_trace(trace_id)
     
+    # Build location string from doc
+    location_parts = []
+    if doc.region and doc.region != "Unknown Region":
+        location_parts.append(doc.region)
+    if doc.country:
+        location_parts.append(doc.country)
+    location = ", ".join(location_parts) if location_parts else None
+    
     return FacilityAnalysisOutput(
         facility_id=doc.facility_id,
+        facility_name=doc.facility_name,
+        location=location,
+        region=doc.region,
+        country=doc.country,
+        latitude=doc.latitude,
+        longitude=doc.longitude,
         extracted_capabilities=capabilities,
         status=status,
         reasons=reasons,

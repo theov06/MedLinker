@@ -27,6 +27,8 @@ class FacilityDocInput(BaseModel):
     source_text: str
     source_url: Optional[str] = None
     timestamp: Optional[str] = None  # ISO 8601 format
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
 
 
 class CapabilitySchemaV0(BaseModel):
@@ -99,6 +101,12 @@ class FacilityAnalysisOutput(BaseModel):
     capabilities, verification status, and supporting evidence.
     """
     facility_id: str
+    facility_name: str = "Unknown Facility"  # Added for frontend display
+    location: Optional[str] = None  # Added for frontend display (city, region, country)
+    region: str = "Unknown Region"  # Added for aggregation
+    country: str = "Unknown Country"  # Added for aggregation
+    latitude: Optional[float] = None  # GPS coordinates
+    longitude: Optional[float] = None  # GPS coordinates
     extracted_capabilities: CapabilitySchemaV0
     status: StatusType
     reasons: list[str] = Field(default_factory=list)

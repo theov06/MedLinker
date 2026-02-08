@@ -1,7 +1,84 @@
 // Profile.jsx - User Account Settings
-import { Mail, Phone, Building, Shield, Bell, Globe } from "lucide-react";
+import { Mail, Phone, Building, Shield, Bell, Globe, Check } from "lucide-react";
+import { useState, useEffect } from "react";
+
+const STORAGE_KEY = 'medlinker_user_profile';
 
 export function Profile() {
+    const [saveStatus, setSaveStatus] = useState('');
+    const [profile, setProfile] = useState({
+        firstName: 'Sarah',
+        lastName: 'Mitchell',
+        email: 'sarah.mitchell@email.com',
+        phone: '+1 (555) 123-4567',
+        organization: 'Department of Health & Human Services',
+        region: 'North America'
+    });
+    
+    const [notifications, setNotifications] = useState({
+        criticalAlerts: true,
+        weeklyDigest: false,
+        newData: false,
+        maintenance: false
+    });
+    
+    const [security, setSecuritySettings] = useState({
+        twoFactorAuth: true
+    });
+
+    // Load saved profile on mount
+    useEffect(() => {
+        loadProfile();
+    }, []);
+
+    const loadProfile = () => {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const data = JSON.parse(saved);
+                setProfile(data.profile || profile);
+                setNotifications(data.notifications || notifications);
+                setSecuritySettings(data.security || security);
+            }
+        } catch (error) {
+            console.error('Failed to load profile:', error);
+        }
+    };
+
+    const saveProfile = () => {
+        try {
+            const data = {
+                profile,
+                notifications,
+                security,
+                lastUpdated: new Date().toISOString()
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            
+            // Dispatch custom event to notify other components
+            window.dispatchEvent(new Event('profileUpdated'));
+            
+            setSaveStatus('saved');
+            setTimeout(() => setSaveStatus(''), 2000);
+        } catch (error) {
+            console.error('Failed to save profile:', error);
+            setSaveStatus('error');
+            setTimeout(() => setSaveStatus(''), 2000);
+        }
+    };
+
+    const handleProfileChange = (field, value) => {
+        setProfile(prev => ({ ...prev, [field]: value }));
+    };
+
+    const handleNotificationToggle = (field) => {
+        setNotifications(prev => ({ ...prev, [field]: !prev[field] }));
+    };
+
+    const handleSecurityToggle = (field) => {
+        setSecuritySettings(prev => ({ ...prev, [field]: !prev[field] }));
+    };
+
     return (
         <div className="h-full overflow-y-auto p-6">
             {/* Header */}
@@ -23,7 +100,8 @@ export function Profile() {
                                         <label className="block text-[13px] text-secondary mb-1">First Name</label>
                                         <input
                                             type="text"
-                                            defaultValue="Sarah"
+                                            value={profile.firstName}
+                                            onChange={(e) => handleProfileChange('firstName', e.target.value)}
                                             className="w-full p-3 border border-main bg-white text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                                         />
                                     </div>
@@ -31,7 +109,8 @@ export function Profile() {
                                         <label className="block text-[13px] text-secondary mb-1">Last Name</label>
                                         <input
                                             type="text"
-                                            defaultValue="Mitchell"
+                                            value={profile.lastName}
+                                            onChange={(e) => handleProfileChange('lastName', e.target.value)}
                                             className="w-full p-3 border border-main bg-white text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                                         />
                                     </div>
@@ -44,7 +123,8 @@ export function Profile() {
                                     </label>
                                     <input
                                         type="email"
-                                        defaultValue="sarah.mitchell@email.com"
+                                        value={profile.email}
+                                        onChange={(e) => handleProfileChange('email', e.target.value)}
                                         className="w-full p-3 border border-main bg-white text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                                     />
                                 </div>
@@ -56,7 +136,8 @@ export function Profile() {
                                     </label>
                                     <input
                                         type="tel"
-                                        defaultValue="+1 (555) 123-4567"
+                                        value={profile.phone}
+                                        onChange={(e) => handleProfileChange('phone', e.target.value)}
                                         className="w-full p-3 border border-main bg-white text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                                     />
                                 </div>
@@ -66,7 +147,11 @@ export function Profile() {
                                         <Building size={12} />
                                         Organization
                                     </label>
-                                    <select className="w-full p-3 border border-main bg-white text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                                    <select 
+                                        value={profile.organization}
+                                        onChange={(e) => handleProfileChange('organization', e.target.value)}
+                                        className="w-full p-3 border border-main bg-white text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                                    >
                                         <option>Department of Health & Human Services</option>
                                         <option>Regional Health Authority</option>
                                         <option>Hospital Network Admin</option>
@@ -78,19 +163,32 @@ export function Profile() {
                                         <Globe size={12} />
                                         Region
                                     </label>
-                                    <select className="w-full p-3 border border-main bg-white text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                                    <select 
+                                        value={profile.region}
+                                        onChange={(e) => handleProfileChange('region', e.target.value)}
+                                        className="w-full p-3 border border-main bg-white text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                                    >
                                         <option>North America</option>
                                         <option>Europe</option>
                                         <option>Asia Pacific</option>
+                                        <option>Africa</option>
+                                        <option>South America</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="p-6">
-                            <button className="px-5 py-2.5 bg-primary text-white hover-primary transition-colors duration-150 font-medium">
-                                Save Changes
+                        <div className="p-6 flex items-center gap-3">
+                            <button 
+                                onClick={saveProfile}
+                                className="px-5 py-2.5 bg-primary text-white hover-primary transition-colors duration-150 font-medium flex items-center gap-2"
+                            >
+                                {saveStatus === 'saved' && <Check size={16} />}
+                                {saveStatus === 'saved' ? 'Saved!' : 'Save Changes'}
                             </button>
+                            {saveStatus === 'error' && (
+                                <span className="text-[13px] text-red-600">Failed to save. Please try again.</span>
+                            )}
                         </div>
                     </div>
 
@@ -103,15 +201,54 @@ export function Profile() {
                             </div>
 
                             <div className="space-y-4">
-                                {['Critical facility alerts', 'Weekly digest reports', 'New data available', 'System maintenance'].map((pref) => (
-                                    <div key={pref} className="flex items-center justify-between">
-                                        <span className="text-[14px]">{pref}</span>
-                                        <label className="relative inline-flex items-center cursor-pointer">
-                                            <input type="checkbox" className="sr-only peer" defaultChecked={pref === 'Critical facility alerts'} />
-                                            <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-main after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
-                                        </label>
-                                    </div>
-                                ))}
+                                <div className="flex items-center justify-between">
+                                    <span className="text-[14px]">Critical facility alerts</span>
+                                    <label className="relative inline-flex items-center cursor-pointer">
+                                        <input 
+                                            type="checkbox" 
+                                            className="sr-only peer" 
+                                            checked={notifications.criticalAlerts}
+                                            onChange={() => handleNotificationToggle('criticalAlerts')}
+                                        />
+                                        <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-main after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                                    </label>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <span className="text-[14px]">Weekly digest reports</span>
+                                    <label className="relative inline-flex items-center cursor-pointer">
+                                        <input 
+                                            type="checkbox" 
+                                            className="sr-only peer" 
+                                            checked={notifications.weeklyDigest}
+                                            onChange={() => handleNotificationToggle('weeklyDigest')}
+                                        />
+                                        <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-main after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                                    </label>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <span className="text-[14px]">New data available</span>
+                                    <label className="relative inline-flex items-center cursor-pointer">
+                                        <input 
+                                            type="checkbox" 
+                                            className="sr-only peer" 
+                                            checked={notifications.newData}
+                                            onChange={() => handleNotificationToggle('newData')}
+                                        />
+                                        <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-main after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                                    </label>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <span className="text-[14px]">System maintenance</span>
+                                    <label className="relative inline-flex items-center cursor-pointer">
+                                        <input 
+                                            type="checkbox" 
+                                            className="sr-only peer" 
+                                            checked={notifications.maintenance}
+                                            onChange={() => handleNotificationToggle('maintenance')}
+                                        />
+                                        <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-main after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -123,7 +260,7 @@ export function Profile() {
                     <div className="bg-panel border border-main p-6 mb-6">
                         <div className="flex flex-col items-center">
                             <div className="w-24 h-24 bg-primary text-white flex items-center justify-center text-[32px] font-semibold mb-4">
-                                SM
+                                {profile.firstName[0]}{profile.lastName[0]}
                             </div>
 
                             <button className="px-4 py-2 border border-main text-[13px] text-secondary hover:bg-slate-50 transition-colors duration-150 mb-2">
@@ -145,7 +282,12 @@ export function Profile() {
                                 <div className="flex items-center justify-between mb-2">
                                     <span className="text-[14px] font-medium">Two-Factor Authentication</span>
                                     <label className="relative inline-flex items-center cursor-pointer">
-                                        <input type="checkbox" className="sr-only peer" defaultChecked />
+                                        <input 
+                                            type="checkbox" 
+                                            className="sr-only peer" 
+                                            checked={security.twoFactorAuth}
+                                            onChange={() => handleSecurityToggle('twoFactorAuth')}
+                                        />
                                         <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-main after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                                     </label>
                                 </div>

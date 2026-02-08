@@ -1,0 +1,238 @@
+id,facility_name,country,country_code,text_content,specialties,has_icu,has_emergency,source_url,latitude,longitude
+SL_yonibana_chp,yonibana CHP,null,SL,yonibana CHP hospital SL,null,true,true,https://www.openstreetmap.org/node/8688476719,8.4393666,-12.2435889
+LR_robersport_etu,Robersport ETU,null,LR,Robersport ETU hospital LR,null,true,true,https://www.openstreetmap.org/node/3198032317,6.75,-11.367
+MG_hopitaly_loterana_andranomadio,Hopitaly Loterana Andranomadio,null,MG,Hopitaly Loterana Andranomadio hospital MG,null,true,true,https://www.openstreetmap.org/node/4587769790,-19.8639262,47.0317008
+NE_centre_hospitalier_de_magaria,Centre Hospitalier de Magaria,null,NE,Centre Hospitalier de Magaria hospital NE,null,true,true,https://www.openstreetmap.org/node/3091098183,12.9962137,8.9106039
+NE_healthcare_facility_4618858184,Healthcare Facility 4618858184,null,NE,Healthcare Facility 4618858184 hospital NE,null,true,true,https://www.openstreetmap.org/node/4618858184,13.2152795,12.0240235
+NE_csi_makouaroua,CSI Makouaroua,null,NE,CSI Makouaroua hospital NE,null,true,true,https://www.openstreetmap.org/node/8001331104,12.7917349,3.8527995
+NE_csi_magama,CSI Magama,null,NE,CSI Magama hospital NE,null,true,true,https://www.openstreetmap.org/node/10565110392,13.5938678,2.1042371
+ML_infirm_rie_garnison_base_a_rienne_101_senou,Infirmérie Garnison Base Aérienne 101 Senou,null,ML,Infirmérie Garnison Base Aérienne 101 Senou hospital ML,null,true,true,https://www.openstreetmap.org/node/4281287096,12.5324472,-7.9368453
+UG_kumi_health_centre_grade_iii,Kumi Health Centre Grade III,null,UG,Kumi Health Centre Grade III hospital UG,null,true,true,https://www.openstreetmap.org/node/2142776813,1.4879504,33.9361388
+MW_mvera_mission_hospital,Mvera Mission Hospital,null,MW,Mvera Mission Hospital hospital MW,null,true,true,https://www.openstreetmap.org/node/476497668,-13.7301317,34.1245453
+MW_milepa_health_centre,Milepa Health Centre,null,MW,Milepa Health Centre hospital MW,null,true,true,https://www.openstreetmap.org/node/1612918621,-15.6867096,35.3910155
+BF_csps_urbain_de_kombissiri,CSPS urbain de KOMBISSIRI,null,BF,CSPS urbain de KOMBISSIRI hospital BF,null,true,true,https://www.openstreetmap.org/node/5714864332,12.0620441,-1.3338494
+BF_csps_de_kombori,CSPS de Kombori,null,BF,CSPS de Kombori hospital BF,null,true,true,https://www.openstreetmap.org/node/6431481878,13.4318761,-3.9411682
+RW_healthcare_facility_1396163507,Healthcare Facility 1396163507,null,RW,Healthcare Facility 1396163507 hospital RW,null,true,true,https://www.openstreetmap.org/node/1396163507,-2.1685079,30.5467055
+RW_post_de_dante_karembure,Post de Dante Karembure,null,RW,Post de Dante Karembure hospital RW,null,true,true,https://www.openstreetmap.org/node/10931602986,-2.0154887,30.0887325
+RW_healthcare_facility_11658226928,Healthcare Facility 11658226928,null,RW,Healthcare Facility 11658226928 hospital RW,null,true,true,https://www.openstreetmap.org/node/11658226928,-1.9800117,30.1494162
+ET_dilchora_hospital,Dilchora Hospital,null,ET,Dilchora Hospital hospital ET,null,true,true,https://www.openstreetmap.org/node/4800340422,9.5880776,41.859517
+SL_rural_kenema_field_hospital,Rural Kenema Field Hospital,null,SL,Rural Kenema Field Hospital hospital SL,null,true,true,https://www.openstreetmap.org/node/3106738524,8.005,-11.116
+SL_lakka_hospital_etu,Lakka Hospital ETU,null,SL,Lakka Hospital ETU hospital SL,null,true,true,https://www.openstreetmap.org/node/3197529888,8.397,-13.264
+SL_princess_christian_maternity_hospital,Princess Christian Maternity Hospital,null,SL,Princess Christian Maternity Hospital hospital SL,null,true,true,https://www.openstreetmap.org/node/3212073781,8.4898614,-13.2193483
+LR_damballa_health_center,Damballa Health Center,null,LR,Damballa Health Center hospital LR,null,true,true,https://www.openstreetmap.org/node/4131217592,7.137192,-11.2819257
+MG_healthcare_facility_5203765810,Healthcare Facility 5203765810,null,MG,Healthcare Facility 5203765810 hospital MG,null,true,true,https://www.openstreetmap.org/node/5203765810,-21.4620967,47.1105907
+MG_clinique_fidy,Clinique Fidy,null,MG,Clinique Fidy hospital MG,null,true,true,https://www.openstreetmap.org/node/5841547590,-18.8893326,47.5391722
+MG_centre_hospitalier_de_r_f_rence_r_gional_de_farafangana,Centre Hospitalier de Référence Régional de Farafangana,null,MG,Centre Hospitalier de Référence Régional de Farafangana hospital MG,null,true,true,https://www.openstreetmap.org/node/6785763444,-22.8226096,47.8304779
+ML_clinique_espoir,Clinique Espoir,null,ML,Clinique Espoir hospital ML,null,true,true,https://www.openstreetmap.org/node/2525525616,12.5757582,-7.9584097
+UG_kololo_hospital_kampala_ltd_,Kololo Hospital Kampala Ltd.,null,UG,Kololo Hospital Kampala Ltd. hospital UG,null,true,true,https://www.openstreetmap.org/node/582857059,0.333829,32.5891586
+MW_neno_district_hospital,Neno District Hospital,null,MW,Neno District Hospital hospital MW,null,true,true,https://www.openstreetmap.org/node/1096948266,-15.3951824,34.6533534
+MW_makungwa_health_centre,Makungwa Health Centre,null,MW,Makungwa Health Centre hospital MW,null,true,true,https://www.openstreetmap.org/node/1693602252,-15.9394923,35.0266549
+RW_healthcare_facility_1394026580,Healthcare Facility 1394026580,null,RW,Healthcare Facility 1394026580 hospital RW,null,true,true,https://www.openstreetmap.org/node/1394026580,-2.4808932,29.528319
+RW_healthcare_facility_1415802646,Healthcare Facility 1415802646,null,RW,Healthcare Facility 1415802646 hospital RW,null,true,true,https://www.openstreetmap.org/node/1415802646,-1.6817829,29.6312509
+ET_health_center,Health Center,null,ET,Health Center hospital ET,null,true,true,https://www.openstreetmap.org/node/1298133865,9.2010727,36.5111602
+SL_holy_spirit_hospital,Holy Spirit Hospital,null,SL,Holy Spirit Hospital hospital SL,null,true,true,https://www.openstreetmap.org/node/4861866411,8.8921534,-12.0364124
+SL_tyler_perry_town_kabala,"Tyler Perry Town, Kabala",null,SL,"Tyler Perry Town, Kabala hospital SL",null,true,true,https://www.openstreetmap.org/node/7660776285,9.5478926,-11.5673182
+LR_healthcare_facility_2755607675,Healthcare Facility 2755607675,null,LR,Healthcare Facility 2755607675 hospital LR,null,true,true,https://www.openstreetmap.org/node/2755607675,6.3531302,-10.469522
+MG_h_pital_de_soalala,Hôpital de Soalala,null,MG,Hôpital de Soalala hospital MG,null,true,true,https://www.openstreetmap.org/node/663455768,-16.1022947,45.3258722
+MG_hoptital_d_ambohimiandra,Hoptital d'Ambohimiandra,null,MG,Hoptital d'Ambohimiandra hospital MG,null,true,true,https://www.openstreetmap.org/node/721751405,-18.9304218,47.5434822
+MG_healthcare_facility_4896455021,Healthcare Facility 4896455021,null,MG,Healthcare Facility 4896455021 hospital MG,null,true,true,https://www.openstreetmap.org/node/4896455021,-18.906817,47.5227739
+NE_csi_nayi_lawan,CSI Nayi Lawan,null,NE,CSI Nayi Lawan hospital NE,null,true,true,https://www.openstreetmap.org/node/4462355156,13.3854499,11.9748638
+NE_h_pital_de_t_ra,Hôpital de Téra,null,NE,Hôpital de Téra hospital NE,null,true,true,https://www.openstreetmap.org/node/10187996116,14.0078429,0.7571465
+ML_cscom,CSCom,null,ML,CSCom hospital ML,null,true,true,https://www.openstreetmap.org/node/3192801077,12.58214,-7.99362
+ML_centre_sant_tioribougou,Centre Santé Tioribougou,null,ML,Centre Santé Tioribougou hospital ML,null,true,true,https://www.openstreetmap.org/node/5061818825,13.3832977,-7.9940762
+UG_peace_medical_centre,Peace Medical Centre,null,UG,Peace Medical Centre hospital UG,null,true,true,https://www.openstreetmap.org/node/563092253,0.9815378,34.2016546
+UG_st_charles_lwanga_buikwe_hospital,St. Charles Lwanga Buikwe Hospital,null,UG,St. Charles Lwanga Buikwe Hospital hospital UG,null,true,true,https://www.openstreetmap.org/node/652432154,0.3392858,33.0320706
+UG_kabale_referral_hospital,Kabale Referral Hospital,null,UG,Kabale Referral Hospital hospital UG,null,true,true,https://www.openstreetmap.org/node/1679340561,-1.2502061,29.9891117
+UG_kamuli_district_hospital,Kamuli District Hospital,null,UG,Kamuli District Hospital hospital UG,null,true,true,https://www.openstreetmap.org/node/2365455559,0.9473191,33.1211263
+BF_csps,CSPS,null,BF,CSPS hospital BF,null,true,true,https://www.openstreetmap.org/node/5752925223,11.8773657,-1.5163337
+BF_urgences,Urgences,null,BF,Urgences hospital BF,null,true,true,https://www.openstreetmap.org/node/6664216006,11.1707503,-4.3013384
+RW_healthcare_facility_1396364150,Healthcare Facility 1396364150,null,RW,Healthcare Facility 1396364150 hospital RW,null,true,true,https://www.openstreetmap.org/node/1396364150,-1.9629908,30.6176061
+RW_healthcare_facility_1415857423,Healthcare Facility 1415857423,null,RW,Healthcare Facility 1415857423 hospital RW,null,true,true,https://www.openstreetmap.org/node/1415857423,-1.81484,30.0614214
+RW_baho_international_hospital,Baho International Hospital,null,RW,Baho International Hospital hospital RW,null,true,true,https://www.openstreetmap.org/node/8715010681,-1.9375995,30.1015856
+RW_ivuriro_ubumwe,Ivuriro Ubumwe,null,RW,Ivuriro Ubumwe hospital RW,null,true,true,https://www.openstreetmap.org/node/10896608809,-1.9810854,30.1045551
+SL_yonibaba_sai_hospital,YONIBABA SAI HOSPITAL,null,SL,YONIBABA SAI HOSPITAL hospital SL,null,true,true,https://www.openstreetmap.org/node/8688477318,8.4583001,-12.2469331
+LR_dr_jallah_medical_center,Dr. Jallah Medical Center,null,LR,Dr. Jallah Medical Center hospital LR,null,true,true,https://www.openstreetmap.org/node/7695068489,6.1785129,-10.4740584
+LR_john_f_kennedy_memorial_medical_center,John F. Kennedy Memorial Medical Center,null,LR,John F. Kennedy Memorial Medical Center hospital LR,null,true,true,https://www.openstreetmap.org/node/7710661312,6.286743,-10.7734331
+MG_clinique_marie_stella,Clinique Marie Stella,null,MG,Clinique Marie Stella hospital MG,null,true,true,https://www.openstreetmap.org/node/5553415266,-18.873266,47.5501267
+MG_blue_star,Blue star,null,MG,Blue star hospital MG,null,true,true,https://www.openstreetmap.org/node/6482670316,-17.8259169,48.4297762
+ML_h_pital_de_gao,Hôpital de Gao,null,ML,Hôpital de Gao hospital ML,null,true,true,https://www.openstreetmap.org/node/2163840419,16.2664392,-0.0385694
+UG_kathile_health_center_3,Kathile Health Center 3,null,UG,Kathile Health Center 3 hospital UG,null,true,true,https://www.openstreetmap.org/node/1811653493,3.6457778,34.0785861
+UG_lochom_health_center_2,Lochom Health Center 2,null,UG,Lochom Health Center 2 hospital UG,null,true,true,https://www.openstreetmap.org/node/1812149525,3.4187552,34.1457784
+BF_csps_de_rega,CSPS de Rega,null,BF,CSPS de Rega hospital BF,null,true,true,https://www.openstreetmap.org/node/6724862817,13.3567689,-2.5444186
+RW_buganda_adventiste,Buganda - Adventiste,null,RW,Buganda - Adventiste hospital RW,null,true,true,https://www.openstreetmap.org/node/2201225062,-2.24433,29.20032
+ET_healthcare_facility_5306021321,Healthcare Facility 5306021321,null,ET,Healthcare Facility 5306021321 hospital ET,null,true,true,https://www.openstreetmap.org/node/5306021321,12.6102929,37.4539273
+SL_healthcare_facility_3165535722,Healthcare Facility 3165535722,null,SL,Healthcare Facility 3165535722 hospital SL,null,true,true,https://www.openstreetmap.org/node/3165535722,8.7607432,-12.7679908
+SL_make_nice_regionale_hospital,Make nice Regionale Hospital,null,SL,Make nice Regionale Hospital hospital SL,null,true,true,https://www.openstreetmap.org/node/8687934317,8.8716558,-12.0564355
+SL_our_lady_of_guadalupe_catholic_clinic,Our lady of guadalupe Catholic clinic,null,SL,Our lady of guadalupe Catholic clinic hospital SL,null,true,true,https://www.openstreetmap.org/node/8688359617,8.4640232,-12.2082721
+LR_montserrado_island_clinic_etu,Montserrado (Island Clinic) ETU,null,LR,Montserrado (Island Clinic) ETU hospital LR,null,true,true,https://www.openstreetmap.org/node/3198032315,6.384,-10.787
+LR_voinjama_etu,Voinjama ETU,null,LR,Voinjama ETU hospital LR,null,true,true,https://www.openstreetmap.org/node/3198032323,8.416939,-9.7499732
+LR_phebe_hospital,Phebe Hospital,null,LR,Phebe Hospital hospital LR,null,true,true,https://www.openstreetmap.org/node/7677255721,7.0281218,-9.5534122
+NE_hopital_de_district_de_guidan_roumdji,Hopital de District de Guidan Roumdji,null,NE,Hopital de District de Guidan Roumdji hospital NE,null,true,true,https://www.openstreetmap.org/node/9994500261,13.6642863,6.6970146
+NE_clinique_m_dicale_innovation,Clinique médicale Innovation,null,NE,Clinique médicale Innovation hospital NE,null,true,true,https://www.openstreetmap.org/node/10567931237,13.5580212,2.0915575
+NE_csi_foulan_koira,CSI Foulan Koira,null,NE,CSI Foulan Koira hospital NE,null,true,true,https://www.openstreetmap.org/node/11028070442,13.5864874,2.1136027
+ML_centre_de_r_f_rence_sant_kolokani,Centre de référence santé kolokani,null,ML,Centre de référence santé kolokani hospital ML,null,true,true,https://www.openstreetmap.org/node/5108122242,13.5898221,-8.0384373
+UG_healthcare_facility_1654299768,Healthcare Facility 1654299768,null,UG,Healthcare Facility 1654299768 hospital UG,null,true,true,https://www.openstreetmap.org/node/1654299768,2.2358737,32.8990967
+UG_healthcare_facility_1655767137,Healthcare Facility 1655767137,null,UG,Healthcare Facility 1655767137 hospital UG,null,true,true,https://www.openstreetmap.org/node/1655767137,1.0909789,34.1769432
+UG_kinoni_health_center,Kinoni Health Center,null,UG,Kinoni Health Center hospital UG,null,true,true,https://www.openstreetmap.org/node/2073004113,-0.658983,30.4589001
+MW_neno_parish_health_center,Neno Parish Health Center,null,MW,Neno Parish Health Center hospital MW,null,true,true,https://www.openstreetmap.org/node/1259594976,-15.4373237,34.6087445
+MW_magaleta_health_center,Magaleta Health Center,null,MW,Magaleta Health Center hospital MW,null,true,true,https://www.openstreetmap.org/node/1269920168,-15.5509983,34.6280384
+MW_pirimiti_community_hospital,Pirimiti Community Hospital,null,MW,Pirimiti Community Hospital hospital MW,null,true,true,https://www.openstreetmap.org/node/4740267125,-15.4852235,35.4510854
+BF_malika,Malika,null,BF,Malika hospital BF,null,true,true,https://www.openstreetmap.org/node/4528456927,13.570868,-2.4107923
+BF_csps_de_tibou,CSPS de Tibou,null,BF,CSPS de Tibou hospital BF,null,true,true,https://www.openstreetmap.org/node/4553065122,14.0926392,-2.16583
+RW_masaka_hospital,Masaka Hospital,null,RW,Masaka Hospital hospital RW,null,true,true,https://www.openstreetmap.org/node/8825950259,-1.9917437,30.2119493
+RW_ruharambuga_kamonyi_healthcenter,RUHARAMBUGA-KAMONYI HEALTHCENTER,null,RW,RUHARAMBUGA-KAMONYI HEALTHCENTER hospital RW,null,true,true,https://www.openstreetmap.org/node/10026853179,-2.4465668,29.0255285
+ET_healthcare_facility_4804024549,Healthcare Facility 4804024549,null,ET,Healthcare Facility 4804024549 hospital ET,null,true,true,https://www.openstreetmap.org/node/4804024549,7.5962094,38.0686504
+SL_nafaya_clinic,Nafaya Clinic,null,SL,Nafaya Clinic hospital SL,null,true,true,https://www.openstreetmap.org/node/1795617000,7.9435307,-11.7319946
+LR_14th_military_hospital,14th Military Hospital,null,LR,14th Military Hospital hospital LR,null,true,true,https://www.openstreetmap.org/node/7694996699,6.2165857,-10.5653716
+LR_kolahun_hospital,Kolahun Hospital,null,LR,Kolahun Hospital hospital LR,null,true,true,https://www.openstreetmap.org/node/7707277088,8.2942141,-10.0838497
+NE_healthcare_facility_7035978852,Healthcare Facility 7035978852,null,NE,Healthcare Facility 7035978852 hospital NE,null,true,true,https://www.openstreetmap.org/node/7035978852,17.0585193,8.094541
+NE_chr,CHR,null,NE,CHR hospital NE,null,true,true,https://www.openstreetmap.org/node/7694827547,14.8951782,5.2686933
+ML_cpam,CPAM,null,ML,CPAM hospital ML,null,true,true,https://www.openstreetmap.org/node/3240033910,12.3723813,-5.4763877
+BF_csps_de_koanga,CSPS de Koanga,null,BF,CSPS de Koanga hospital BF,null,true,true,https://www.openstreetmap.org/node/6450529943,12.2804187,-1.9977146
+RW_healthcare_facility_1398644470,Healthcare Facility 1398644470,null,RW,Healthcare Facility 1398644470 hospital RW,null,true,true,https://www.openstreetmap.org/node/1398644470,-1.548276,30.2460333
+RW_legacy_hospital,Legacy Hospital,null,RW,Legacy Hospital hospital RW,null,true,true,https://www.openstreetmap.org/node/11012436882,-1.9679378,30.1632721
+ET_health_center_feres_bet,Health Center Feres Bet,null,ET,Health Center Feres Bet hospital ET,null,true,true,https://www.openstreetmap.org/node/1748678062,10.8493702,37.6088443
+ET_healthcare_facility_5720719122,Healthcare Facility 5720719122,null,ET,Healthcare Facility 5720719122 hospital ET,null,true,true,https://www.openstreetmap.org/node/5720719122,9.019603,38.7499016
+SL_ahmaddya_hospital,Ahmaddya hospital,null,SL,Ahmaddya hospital hospital SL,null,true,true,https://www.openstreetmap.org/node/5430860421,8.4316504,-13.1548783
+SL_healthcare_facility_7649005105,Healthcare Facility 7649005105,null,SL,Healthcare Facility 7649005105 hospital SL,null,true,true,https://www.openstreetmap.org/node/7649005105,8.4659499,-13.1938956
+LR_curran_lutheran_hospital,Curran Lutheran Hospital,null,LR,Curran Lutheran Hospital hospital LR,null,true,true,https://www.openstreetmap.org/node/7707004605,7.7751388,-9.4324903
+LR_ch_rennie_hospital,CH Rennie Hospital,null,LR,CH Rennie Hospital hospital LR,null,true,true,https://www.openstreetmap.org/node/7717178066,6.5203905,-10.3481794
+NE_csi_boudouri,CSI Boudouri,null,NE,CSI Boudouri hospital NE,null,true,true,https://www.openstreetmap.org/node/5158937121,13.2676143,12.4893433
+ML_chu_cnos,CHU CNOS,null,ML,CHU CNOS hospital ML,null,true,true,https://www.openstreetmap.org/node/2163838646,12.6367,-8.00353
+ML_cscom_mercoya,CSCOM Mercoya,null,ML,CSCOM Mercoya hospital ML,null,true,true,https://www.openstreetmap.org/node/5224845823,13.9210643,-8.1981982
+UG_healthcare_facility_1647176814,Healthcare Facility 1647176814,null,UG,Healthcare Facility 1647176814 hospital UG,null,true,true,https://www.openstreetmap.org/node/1647176814,2.2473075,32.9003043
+UG_kanyenya_hospital,Kanyenya Hospital,null,UG,Kanyenya Hospital hospital UG,null,true,true,https://www.openstreetmap.org/node/1947820229,0.9438588,34.1261633
+MW_ehehleni_health_center,Ehehleni Health Center,null,MW,Ehehleni Health Center hospital MW,null,true,true,https://www.openstreetmap.org/node/1629688666,-12.2639557,33.587834
+MW_kanjedza_mediclinic_masm_,Kanjedza MediClinic (MASM),null,MW,Kanjedza MediClinic (MASM) hospital MW,null,true,true,https://www.openstreetmap.org/node/4818854325,-15.8126957,35.0550247
+BF_cardiologie,Cardiologie,null,BF,Cardiologie hospital BF,null,true,true,https://www.openstreetmap.org/node/6664182108,11.1705264,-4.3019391
+RW_healthcare_facility_1403167994,Healthcare Facility 1403167994,null,RW,Healthcare Facility 1403167994 hospital RW,null,true,true,https://www.openstreetmap.org/node/1403167994,-2.1814081,29.2911129
+RW_healthcare_facility_1841447194,Healthcare Facility 1841447194,null,RW,Healthcare Facility 1841447194 hospital RW,null,true,true,https://www.openstreetmap.org/node/1841447194,-1.9528334,30.1028383
+ET_st_yared_general_hospital,St. Yared general hospital,null,ET,St. Yared general hospital hospital ET,null,true,true,https://www.openstreetmap.org/node/6855641985,9.0190983,38.809959
+SL_china_sl_friendship_hospital_jui,"China-SL Friendship Hospital, Jui",null,SL,"China-SL Friendship Hospital, Jui hospital SL",null,true,true,https://www.openstreetmap.org/node/3197529881,8.3886882,-13.1428364
+SL_kailahun_cmc,Kailahun CMC,null,SL,Kailahun CMC hospital SL,null,true,true,https://www.openstreetmap.org/node/3197529885,8.298,-10.558
+LR_bolahun_health_center,Bolahun Health Center,null,LR,Bolahun Health Center hospital LR,null,true,true,https://www.openstreetmap.org/node/4131212887,8.2283878,-10.162326
+LR_home_of_dignity_health_center,Home of Dignity Health Center,null,LR,Home of Dignity Health Center hospital LR,null,true,true,https://www.openstreetmap.org/node/5358323622,6.4346161,-10.7631066
+LR_liberia_agriculture_company_hospital,Liberia Agriculture Company Hospital,null,LR,Liberia Agriculture Company Hospital hospital LR,null,true,true,https://www.openstreetmap.org/node/7703806407,6.0902807,-9.7377499
+MG_healthcare_facility_2430137856,Healthcare Facility 2430137856,null,MG,Healthcare Facility 2430137856 hospital MG,null,true,true,https://www.openstreetmap.org/node/2430137856,-13.4427462,48.3478284
+MG_healthcare_facility_5249769022,Healthcare Facility 5249769022,null,MG,Healthcare Facility 5249769022 hospital MG,null,true,true,https://www.openstreetmap.org/node/5249769022,-12.2833363,49.294032
+MG_centre_hospitalier_de_r_f_rence_de_district_ikalamavony,Centre Hospitalier de Référence de District Ikalamavony,null,MG,Centre Hospitalier de Référence de District Ikalamavony hospital MG,null,true,true,https://www.openstreetmap.org/node/7554433938,-21.1635911,46.5972649
+NE_grand_hopital,Grand Hopital,null,NE,Grand Hopital hospital NE,null,true,true,https://www.openstreetmap.org/node/7624013450,13.7540998,7.9902728
+NE_district_de_sanam,district de sanam,null,NE,district de sanam hospital NE,null,true,true,https://www.openstreetmap.org/node/8023371777,14.838679,3.9235353
+NE_csi_guidan_roumdji,CSI Guidan Roumdji,null,NE,CSI Guidan Roumdji hospital NE,null,true,true,https://www.openstreetmap.org/node/9995104273,13.6613777,6.6872111
+BF_healthcare_facility_344614499,Healthcare Facility 344614499,null,BF,Healthcare Facility 344614499 hospital BF,null,true,true,https://www.openstreetmap.org/node/344614499,12.3979957,-1.506993
+BF_csps_de_dayoubsi,CSPS de Dayoubsi,null,BF,CSPS de Dayoubsi hospital BF,null,true,true,https://www.openstreetmap.org/node/5111883546,12.2361713,-1.6037183
+BF_csps_de_koulgoren,CSPS de Koulgoren,null,BF,CSPS de Koulgoren hospital BF,null,true,true,https://www.openstreetmap.org/node/6450529923,12.251082,-2.0375991
+RW_gakoma,Gakoma,null,RW,Gakoma hospital RW,null,true,true,https://www.openstreetmap.org/node/1396656394,-2.4419463,29.9349884
+RW_healthcare_facility_10822299068,Healthcare Facility 10822299068,null,RW,Healthcare Facility 10822299068 hospital RW,null,true,true,https://www.openstreetmap.org/node/10822299068,-1.9688014,30.1217423
+ET_gonder_university_hospital,Gonder university hospital,null,ET,Gonder university hospital hospital ET,null,true,true,https://www.openstreetmap.org/node/595145872,12.6168703,37.4509954
+ET_ghandi_hospital,Ghandi Hospital,null,ET,Ghandi Hospital hospital ET,null,true,true,https://www.openstreetmap.org/node/1110691820,9.0152977,38.7554049
+ET_healthcare_facility_7398323192,Healthcare Facility 7398323192,null,ET,Healthcare Facility 7398323192 hospital ET,null,true,true,https://www.openstreetmap.org/node/7398323192,9.0313602,38.7466728
+SL_makeneh_kabala_highway_makeni,Makeneh Kabala Highway Makeni,null,SL,Makeneh Kabala Highway Makeni hospital SL,null,true,true,https://www.openstreetmap.org/node/8687897519,8.9083172,-12.0296502
+LR_liberia_government_hospital,Liberia Government Hospital,null,LR,Liberia Government Hospital hospital LR,null,true,true,https://www.openstreetmap.org/node/7703814877,5.8841365,-10.0459417
+MG_tanzimoha,Tanzimoha,null,MG,Tanzimoha hospital MG,null,true,true,https://www.openstreetmap.org/node/4875413446,-22.341948,47.8488568
+NE_maternit_boukoki,Maternité Boukoki,null,NE,Maternité Boukoki hospital NE,null,true,true,https://www.openstreetmap.org/node/2724924473,13.5339247,2.1195422
+ML_cscom_hamdalaye,Cscom/HAMDALAYE,null,ML,Cscom/HAMDALAYE hospital ML,null,true,true,https://www.openstreetmap.org/node/3200016779,12.643859,-8.0317458
+ML_centre_de_sant_de_r_f_rence_de_bankass,Centre de Santé de Référence de Bankass,null,ML,Centre de Santé de Référence de Bankass hospital ML,null,true,true,https://www.openstreetmap.org/node/5157646524,14.083355,-3.509163
+UG_victoria_clinic,Victoria Clinic,null,UG,Victoria Clinic hospital UG,null,true,true,https://www.openstreetmap.org/node/1322227678,0.4272364,33.2087981
+BF_csps_de_kou_r_,CSPS de Kouéré,null,BF,CSPS de Kouéré hospital BF,null,true,true,https://www.openstreetmap.org/node/6860866042,10.4632541,-4.0003002
+RW_eye_clinic,Eye Clinic,null,RW,Eye Clinic hospital RW,null,true,true,https://www.openstreetmap.org/node/8441496294,-1.9680822,29.9699037
+ET_icon_center_of_special_surgery,Icon center of special surgery,null,ET,Icon center of special surgery hospital ET,null,true,true,https://www.openstreetmap.org/node/4369113590,9.0000257,38.8060175
+ET_amanuel_psychiatric_hospital,Amanuel Psychiatric Hospital,null,ET,Amanuel Psychiatric Hospital hospital ET,null,true,true,https://www.openstreetmap.org/node/4551063002,9.0282507,38.7226843
+SL_mansary_cac,Mansary Cac,null,SL,Mansary Cac hospital SL,null,true,true,https://www.openstreetmap.org/node/4504648654,8.1709681,-10.7515772
+SL_gandorhun_chc,Gandorhun CHC,null,SL,Gandorhun CHC hospital SL,null,true,true,https://www.openstreetmap.org/node/4504695174,8.854661,-10.7665845
+SL_old_government_hospital,Old government hospital,null,SL,Old government hospital hospital SL,null,true,true,https://www.openstreetmap.org/node/8687950418,8.8885413,-12.0459702
+LR_lofa_foya_etu,Lofa (Foya) ETU,null,LR,Lofa (Foya) ETU hospital LR,null,true,true,https://www.openstreetmap.org/node/3198032310,8.3788647,-10.2057693
+MG_mat_rnit_,Matérnité,null,MG,Matérnité hospital MG,null,true,true,https://www.openstreetmap.org/node/6576246269,-23.5516195,43.7621402
+MG_centre_hospitalier_de_r_f_rence_r_gionale_ihosy,Centre Hospitalier de Référence Régionale Ihosy,null,MG,Centre Hospitalier de Référence Régionale Ihosy hospital MG,null,true,true,https://www.openstreetmap.org/node/7502826642,-22.4033564,46.1316048
+NE_polyclinique_a_r_soins,Polyclinique Aïr soins,null,NE,Polyclinique Aïr soins hospital NE,null,true,true,https://www.openstreetmap.org/node/7258932886,16.9763479,8.001015
+NE_case_de_sate_de_lingui,CASE DE SATE DE LINGUI,null,NE,CASE DE SATE DE LINGUI hospital NE,null,true,true,https://www.openstreetmap.org/node/8568784548,13.4703215,8.9809431
+ML_cscom_de_s_goucoura,CSCom de Ségoucoura,null,ML,CSCom de Ségoucoura hospital ML,null,true,true,https://www.openstreetmap.org/node/2163839816,13.4336712,-6.2940804
+ML_laboratoire_d_analyse_medicale,Laboratoire d'Analyse Medicale,null,ML,Laboratoire d'Analyse Medicale hospital ML,null,true,true,https://www.openstreetmap.org/node/3463625824,12.6407701,-8.0269043
+UG_healthcare_facility_1647438029,Healthcare Facility 1647438029,null,UG,Healthcare Facility 1647438029 hospital UG,null,true,true,https://www.openstreetmap.org/node/1647438029,3.0104432,30.9605342
+MW_ntchisi_hospital,Ntchisi Hospital,null,MW,Ntchisi Hospital hospital MW,null,true,true,https://www.openstreetmap.org/node/561309681,-13.3639647,33.9119377
+BF_cma_de_kombissiri,CMA de Kombissiri,null,BF,CMA de Kombissiri hospital BF,null,true,true,https://www.openstreetmap.org/node/3387641481,12.0808992,-1.346669
+BF_pneumologie,Pneumologie,null,BF,Pneumologie hospital BF,null,true,true,https://www.openstreetmap.org/node/6499502781,11.1707522,-4.3016772
+SL_magbenteh_community_hospital,Magbenteh Community Hospital,null,SL,Magbenteh Community Hospital hospital SL,null,true,true,https://www.openstreetmap.org/node/8687827819,8.8774868,-12.0745401
+SL_st_maries,St. Maries,null,SL,St. Maries hospital SL,null,true,true,https://www.openstreetmap.org/node/8688288819,8.4628845,-12.2205441
+MG_h_pital_de_f_n_rive_est,Hôpital de Fénérive-Est,null,MG,Hôpital de Fénérive-Est hospital MG,null,true,true,https://www.openstreetmap.org/node/671507412,-17.3820097,49.4198526
+MG_healthcare_facility_2391522904,Healthcare Facility 2391522904,null,MG,Healthcare Facility 2391522904 hospital MG,null,true,true,https://www.openstreetmap.org/node/2391522904,-15.7165568,46.3052907
+MG_dispensaire,Dispensaire,null,MG,Dispensaire hospital MG,null,true,true,https://www.openstreetmap.org/node/4360144272,-14.8355601,47.3285816
+ML_h_pital_de_markala,Hôpital de markala,null,ML,Hôpital de markala hospital ML,null,true,true,https://www.openstreetmap.org/node/2527959020,13.6888181,-6.0712357
+ML_h_pital_nianankoro_fomba,Hôpital Nianankoro Fomba,null,ML,Hôpital Nianankoro Fomba hospital ML,null,true,true,https://www.openstreetmap.org/node/4506775372,13.4462824,-6.260788
+ML_cscom_de_kalak_,CSCOM de Kalakè,null,ML,CSCOM de Kalakè hospital ML,null,true,true,https://www.openstreetmap.org/node/4757784569,12.9630231,-6.853337
+UG_st_martins_medical_centre,St Martins Medical Centre,null,UG,St Martins Medical Centre hospital UG,null,true,true,https://www.openstreetmap.org/node/560542965,1.0756393,34.1772103
+UG_uganda_red_cross,Uganda Red Cross,null,UG,Uganda Red Cross hospital UG,null,true,true,https://www.openstreetmap.org/node/560551840,1.0724469,34.1746525
+UG_kabale_regional_hospital,Kabale Regional Hospital,null,UG,Kabale Regional Hospital hospital UG,null,true,true,https://www.openstreetmap.org/node/1701146407,-1.2510457,29.9889878
+MW_mangochi_district_hospital,Mangochi District Hospital,null,MW,Mangochi District Hospital hospital MW,null,true,true,https://www.openstreetmap.org/node/902487975,-14.481954,35.2651307
+MW_loudon_hospital,Loudon Hospital,null,MW,Loudon Hospital hospital MW,null,true,true,https://www.openstreetmap.org/node/1023278824,-12.138055,33.4751639
+MW_midzemba_health_center,Midzemba Health Center,null,MW,Midzemba Health Center hospital MW,null,true,true,https://www.openstreetmap.org/node/1269919855,-15.3476222,34.8404944
+MW_mikolongwe_health_centre,Mikolongwe Health Centre,null,MW,Mikolongwe Health Centre hospital MW,null,true,true,https://www.openstreetmap.org/node/1692074129,-15.9013616,35.1841144
+MW_namadidi_health_center,Namadidi Health Center,null,MW,Namadidi Health Center hospital MW,null,true,true,https://www.openstreetmap.org/node/4726583501,-15.4101839,35.2476252
+BF_csps_de_tanvi,CSPS de Tanvi,null,BF,CSPS de Tanvi hospital BF,null,true,true,https://www.openstreetmap.org/node/6235837136,12.2480021,-1.3289917
+ET_selihom_clinic,Selihom Clinic,null,ET,Selihom Clinic hospital ET,null,true,true,https://www.openstreetmap.org/node/800904452,8.9380687,38.7468861
+ET_arsho_laboratories,arsho laboratories,null,ET,arsho laboratories hospital ET,null,true,true,https://www.openstreetmap.org/node/4369176589,9.0156828,38.7844988
+LR_masating_leper_colony,Masating Leper Colony,null,LR,Masating Leper Colony hospital LR,null,true,true,https://www.openstreetmap.org/node/2996153471,6.9306311,-10.9943934
+LR_benson_hospital,Benson Hospital,null,LR,Benson Hospital hospital LR,null,true,true,https://www.openstreetmap.org/node/3040192808,6.2834063,-10.6900157
+LR_gw_harley_hospital_dr,GW Harley Hospital Dr,null,LR,GW Harley Hospital Dr hospital LR,null,true,true,https://www.openstreetmap.org/node/4131217604,7.3572853,-8.7143909
+MG_vezo_hopital,Vezo Hopital,null,MG,Vezo Hopital hospital MG,null,true,true,https://www.openstreetmap.org/node/4671059254,-22.0766435,43.2402844
+MG_polyclinique_d_ilafy,Polyclinique d'Ilafy,null,MG,Polyclinique d'Ilafy hospital MG,null,true,true,https://www.openstreetmap.org/node/5248407943,-18.854653,47.5502658
+NE_centre_de_recherche_m_dicale_et_sanitaire,Centre de Recherche Médicale et Sanitaire,null,NE,Centre de Recherche Médicale et Sanitaire hospital NE,null,true,true,https://www.openstreetmap.org/node/6518603095,13.5284305,2.0888117
+ML_cscom_diora,CSCOM Diora,null,ML,CSCOM Diora hospital ML,null,true,true,https://www.openstreetmap.org/node/5056518221,12.8594072,-4.676668
+UG_wi_anaka_health_centre,Wi Anaka health centre,null,UG,Wi Anaka health centre hospital UG,null,true,true,https://www.openstreetmap.org/node/1647108220,2.5786335,31.7759892
+MW_zalewa_health_center,Zalewa Health Center,null,MW,Zalewa Health Center hospital MW,null,true,true,https://www.openstreetmap.org/node/1138046291,-15.4479497,34.8499233
+BF_accueil_service_renseignement,Accueil Service renseignement,null,BF,Accueil Service renseignement hospital BF,null,true,true,https://www.openstreetmap.org/node/6664097898,11.1708481,-4.3011626
+BF_csps_de_dandougou,CSPS de Dandougou,null,BF,CSPS de Dandougou hospital BF,null,true,true,https://www.openstreetmap.org/node/6868115020,10.5247807,-4.0599874
+RW_munini_hospital,Munini Hospital,null,RW,Munini Hospital hospital RW,null,true,true,https://www.openstreetmap.org/node/10621783645,-2.7116553,29.5325538
+SL_shriners_hospitals_for_children,Shriners Hospitals for Children,null,SL,Shriners Hospitals for Children hospital SL,null,true,true,https://www.openstreetmap.org/node/6979628967,8.4637086,-13.2269431
+LR_james_n_david_memorial_hospital,James N. David Memorial Hospital,null,LR,James N. David Memorial Hospital hospital LR,null,true,true,https://www.openstreetmap.org/node/7694981828,6.3110682,-10.7201861
+MG_csb_ii_de_saint_augustin,CSB II de Saint-Augustin,null,MG,CSB II de Saint-Augustin hospital MG,null,true,true,https://www.openstreetmap.org/node/6574709629,-23.5517672,43.762153
+MG_centre_hospitalier_r_gional_de_r_f_rence_maintirano,Centre Hospitalier Régional de Référence Maintirano,null,MG,Centre Hospitalier Régional de Référence Maintirano hospital MG,null,true,true,https://www.openstreetmap.org/node/6679524325,-18.0618968,44.0229249
+NE_centre_hospitalier_r_gional_de_dosso,Centre Hospitalier Régional de Dosso,null,NE,Centre Hospitalier Régional de Dosso hospital NE,null,true,true,https://www.openstreetmap.org/node/2425327794,13.0469477,3.2003374
+NE_clinique_habou,CLINIQUE Habou,null,NE,CLINIQUE Habou hospital NE,null,true,true,https://www.openstreetmap.org/node/9810407793,13.9625219,5.5070606
+ML_h_pital_de_s_var_,Hôpital de Sévaré,null,ML,Hôpital de Sévaré hospital ML,null,true,true,https://www.openstreetmap.org/node/2163840431,14.52742,-4.09344
+ML_clinique_piti_,Clinique Pitié,null,ML,Clinique Pitié hospital ML,null,true,true,https://www.openstreetmap.org/node/3207906941,12.6618742,-7.9729285
+UG_cure_children_s_hospital_of_uganda,Cure Children's Hospital of Uganda,null,UG,Cure Children's Hospital of Uganda hospital UG,null,true,true,https://www.openstreetmap.org/node/560551837,1.0740559,34.1717568
+UG_bukinda_health_center,Bukinda Health Center,null,UG,Bukinda Health Center hospital UG,null,true,true,https://www.openstreetmap.org/node/2073075501,-1.0170576,30.1883053
+MW_matandani_health_center,Matandani Health Center,null,MW,Matandani Health Center hospital MW,null,true,true,https://www.openstreetmap.org/node/1269919859,-15.3218382,34.6599029
+BF_consultation,Consultation,null,BF,Consultation hospital BF,null,true,true,https://www.openstreetmap.org/node/6664107762,11.1704782,-4.3020707
+RW_ub_umuntu,Ub Umuntu,null,RW,Ub Umuntu hospital RW,null,true,true,https://www.openstreetmap.org/node/10896608820,-1.9774072,30.1044734
+RW_eye_centre_pylamids,Eye Centre Pylamids,null,RW,Eye Centre Pylamids hospital RW,null,true,true,https://www.openstreetmap.org/node/10946648763,-1.9692842,30.0992206
+ET_healthcare_facility_4486594689,Healthcare Facility 4486594689,null,ET,Healthcare Facility 4486594689 hospital ET,null,true,true,https://www.openstreetmap.org/node/4486594689,7.051637,38.4731721
+ET__,ቆቦ ሆስፒታል,null,ET,ቆቦ ሆስፒታል hospital ET,null,true,true,https://www.openstreetmap.org/node/5356977321,12.1627062,39.6497244
+SL_secondary_hospital_centres_referral_unit_,"Secondary Hospital Centres ""Referral Unit""",null,SL,"Secondary Hospital Centres ""Referral Unit"" hospital SL",null,true,true,https://www.openstreetmap.org/node/3123413640,8.4601937,-10.335562
+LR_foya_boma_hospital,Foya Boma Hospital,null,LR,Foya Boma Hospital hospital LR,null,true,true,https://www.openstreetmap.org/node/7712007690,8.3548833,-10.2005654
+MG_centre_hosptalier_de_r_f_rence_du_district_du_vatomandry,Centre Hosptalier de Référence du District du Vatomandry,null,MG,Centre Hosptalier de Référence du District du Vatomandry hospital MG,null,true,true,https://www.openstreetmap.org/node/5501788098,-19.330461,48.9799818
+ML_clinique_farako,Clinique Farako,null,ML,Clinique Farako hospital ML,null,true,true,https://www.openstreetmap.org/node/5128272170,12.6521231,-8.0275689
+ML_h_pital_saint_paul_vi_gavardo_,Hôpital Saint Paul VI(Gavardo),null,ML,Hôpital Saint Paul VI(Gavardo) hospital ML,null,true,true,https://www.openstreetmap.org/node/5248938382,13.4096582,-6.2228054
+UG_st_francis_nagala_hospital,St Francis Nagala Hospital,null,UG,St Francis Nagala Hospital hospital UG,null,true,true,https://www.openstreetmap.org/node/2079955527,0.612583,32.821622
+MW_kasungu_district_hospital_kdh_,kasungu District Hospital (KDH),null,MW,kasungu District Hospital (KDH) hospital MW,null,true,true,https://www.openstreetmap.org/node/561318036,-13.0358972,33.4802145
+MW_chifunga_health_center,Chifunga Health Center,null,MW,Chifunga Health Center hospital MW,null,true,true,https://www.openstreetmap.org/node/1269920169,-15.5960412,34.6995021
+BF_csps_de_koumenstenga_mossi,CSPS de Koumenstenga-Mossi,null,BF,CSPS de Koumenstenga-Mossi hospital BF,null,true,true,https://www.openstreetmap.org/node/6899257185,12.941474,-0.6563018
+RW_maisha_optical_centre,Maisha Optical Centre,null,RW,Maisha Optical Centre hospital RW,null,true,true,https://www.openstreetmap.org/node/8153879532,-1.9521936,30.0920417
+RW_military_hospital_kanombe,Military Hospital Kanombe,null,RW,Military Hospital Kanombe hospital RW,null,true,true,https://www.openstreetmap.org/node/11012543198,-1.9781415,30.1685667
+LR_f_j_grante_hospital,F J Grante Hospital,null,LR,F J Grante Hospital hospital LR,null,true,true,https://www.openstreetmap.org/node/7703923177,5.008601,-9.0367786
+LR_charles_b_dunbar_hospital,Charles B. Dunbar Hospital,null,LR,Charles B. Dunbar Hospital hospital LR,null,true,true,https://www.openstreetmap.org/node/7711094129,7.0047337,-9.4769767
+MG_angeline_medical_institute,Angeline Medical Institute,null,MG,Angeline Medical Institute hospital MG,null,true,true,https://www.openstreetmap.org/node/616734902,-18.9087993,47.5172775
+NE_case_lari,Case Lari,null,NE,Case Lari hospital NE,null,true,true,https://www.openstreetmap.org/node/7562922185,14.3349508,13.1884703
+NE_centre_national_de_r_f_rence_de_la_drepanocytose,Centre National De Référence de la DREPANOCYTOSE,null,NE,Centre National De Référence de la DREPANOCYTOSE hospital NE,null,true,true,https://www.openstreetmap.org/node/7816092808,13.5040195,2.111842
+NE_hopital_malbaza,Hopital Malbaza,null,NE,Hopital Malbaza hospital NE,null,true,true,https://www.openstreetmap.org/node/9809444519,13.9629306,5.5045849
+ML_centre_de_r_f_rence_de_fana,Centre de Référence de Fana,null,ML,Centre de Référence de Fana hospital ML,null,true,true,https://www.openstreetmap.org/node/4506775367,12.799113,-6.9439888
+ML_ccref,CCref,null,ML,CCref hospital ML,null,true,true,https://www.openstreetmap.org/node/4959143922,13.2879576,-4.5910608
+UG_mbale_regional_referral_hospital,Mbale Regional Referral Hospital,null,UG,Mbale Regional Referral Hospital hospital UG,null,true,true,https://www.openstreetmap.org/node/560542964,1.0764209,34.1767819
+UG_healthcare_facility_1655712238,Healthcare Facility 1655712238,null,UG,Healthcare Facility 1655712238 hospital UG,null,true,true,https://www.openstreetmap.org/node/1655712238,1.7158382,33.6158723
+RW_shalom_hospital,Shalom hospital,null,RW,Shalom hospital hospital RW,null,true,true,https://www.openstreetmap.org/node/10900303550,-1.9683476,30.1214785
+ET_1st_chiropractic_clinic,1st Chiropractic Clinic,null,ET,1st Chiropractic Clinic hospital ET,null,true,true,https://www.openstreetmap.org/node/4550845131,8.9908609,38.7940723
+SL_gbahama_community_health_post,Gbahama Community Health Post,null,SL,Gbahama Community Health Post hospital SL,null,true,true,https://www.openstreetmap.org/node/4504648651,8.2369322,-10.717485
+SL_helen_k_koroma,Helen K Koroma,null,SL,Helen K Koroma hospital SL,null,true,true,https://www.openstreetmap.org/node/4504696821,8.9366751,-13.1434073
+LR_government_hospital,Government Hospital,null,LR,Government Hospital hospital LR,null,true,true,https://www.openstreetmap.org/node/7675651820,6.8663746,-10.8304641
+MG_service_m_dical_inter_entreprises,Service Médical Inter Entreprises,null,MG,Service Médical Inter Entreprises hospital MG,null,true,true,https://www.openstreetmap.org/node/5749216079,-19.8758464,47.0425665
+ML_centre_de_sante_chretien_darsalam1,Centre de Sante Chretien Darsalam1,null,ML,Centre de Sante Chretien Darsalam1 hospital ML,null,true,true,https://www.openstreetmap.org/node/4024296406,12.4036158,-5.4569409
+UG_healthcare_facility_1655767162,Healthcare Facility 1655767162,null,UG,Healthcare Facility 1655767162 hospital UG,null,true,true,https://www.openstreetmap.org/node/1655767162,1.3574886,34.0328596
+MW_likuni,Likuni,null,MW,Likuni hospital MW,null,true,true,https://www.openstreetmap.org/node/274086722,-14.0281706,33.7066948
+MW_nyungwe_hospital,Nyungwe Hospital,null,MW,Nyungwe Hospital hospital MW,null,true,true,https://www.openstreetmap.org/node/476501750,-10.2874619,34.1077203
+MW_ntaja_hospital_center,Ntaja Hospital Center,null,MW,Ntaja Hospital Center hospital MW,null,true,true,https://www.openstreetmap.org/node/476507020,-14.8731706,35.5288368
+MW_machinga_district_hospital,Machinga District Hospital,null,MW,Machinga District Hospital hospital MW,null,true,true,https://www.openstreetmap.org/node/920497053,-15.0619153,35.2245388
+MW_nkhoma_eye_clinic,Nkhoma Eye Clinic,null,MW,Nkhoma Eye Clinic hospital MW,null,true,true,https://www.openstreetmap.org/node/3089037829,-13.9949903,33.7812222
+MW_nakalanzi_health_centre,Nakalanzi Health Centre,null,MW,Nakalanzi Health Centre hospital MW,null,true,true,https://www.openstreetmap.org/node/3443531901,-14.2017512,34.5490415
+BF_csps_de_gourbala,CSPS de Gourbala,null,BF,CSPS de Gourbala hospital BF,null,true,true,https://www.openstreetmap.org/node/3810607281,13.1336229,-2.600376
+BF_csps_de_hitt_,CSPS de Hitté,null,BF,CSPS de Hitté hospital BF,null,true,true,https://www.openstreetmap.org/node/5777305164,13.7656545,-1.8488158

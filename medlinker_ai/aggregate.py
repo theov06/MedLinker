@@ -30,16 +30,9 @@ def group_by_region(
     grouped = defaultdict(list)
     
     for output in facility_outputs:
-        # Extract country and region from facility_id
-        # Assuming format like "GH-ACC-001" where GH=country, ACC=region
-        parts = output.facility_id.split("-")
-        if len(parts) >= 2:
-            country = parts[0]
-            region = parts[1]
-        else:
-            # Fallback: use facility_id as region
-            country = "UNKNOWN"
-            region = output.facility_id
+        # Use region and country fields from the output
+        country = output.country if hasattr(output, 'country') else "UNKNOWN"
+        region = output.region if hasattr(output, 'region') else "UNKNOWN"
         
         grouped[(country, region)].append(output)
     

@@ -53,6 +53,7 @@ def build_facility_search_text(facility: FacilityAnalysisOutput) -> str:
         Concatenated searchable text
     """
     parts = [
+        facility.facility_name,  # Use name instead of ID
         facility.facility_id,
         facility.status,
         " ".join(facility.extracted_capabilities.services),
@@ -161,7 +162,7 @@ def detect_question_intent(question: str) -> str:
         question: User question
         
     Returns:
-        Intent type: desert_ranking, desert, suspicious, incomplete, capability, general
+        Intent type: desert_ranking, desert, suspicious, incomplete, verified, all_facilities, capability, general
     """
     question_lower = question.lower()
     
@@ -169,13 +170,17 @@ def detect_question_intent(question: str) -> str:
     if any(kw in question_lower for kw in ["top", "highest", "worst", "rank", "most"]) and \
        any(kw in question_lower for kw in ["desert", "score"]):
         return "desert_ranking"
+    elif "all facilities" in question_lower or "list facilities" in question_lower or "show facilities" in question_lower or "show me all" in question_lower:
+        return "all_facilities"
+    elif "verified" in question_lower:
+        return "verified"
     elif any(kw in question_lower for kw in ["lack", "missing", "desert", "gap", "shortage"]):
         return "desert"
     elif any(kw in question_lower for kw in ["suspicious", "inconsistent", "contradiction"]):
         return "suspicious"
     elif any(kw in question_lower for kw in ["incomplete", "partial", "missing data"]):
         return "incomplete"
-    elif any(kw in question_lower for kw in ["where", "which", "find", "has", "available"]):
+    elif any(kw in question_lower for kw in ["where", "which", "find", "has", "available", "offer", "provide", "what facilities"]):
         return "capability"
     else:
         return "general"
@@ -291,7 +296,8 @@ def generate_fallback_answer(
         else:
             answer = f"Found {len(suspicious)} suspicious facilities:\n\n"
             for i, facility in enumerate(suspicious[:5], 1):
-                answer += f"{i}. {facility.facility_id}: {facility.reasons[0] if facility.reasons else 'No reason provided'}\n"
+                location_str = f" ({facility.location})" if facility.location else ""
+                answer += f"{i}. {facility.facility_name}{location_str}: {facility.reasons[0] if facility.reasons else 'No reason provided'}\n"
                 
                 # Reuse existing citations
                 if facility.citations:
@@ -311,11 +317,96 @@ def generate_fallback_answer(
         else:
             answer = f"Found {len(incomplete)} incomplete facilities:\n\n"
             for i, facility in enumerate(incomplete[:5], 1):
-                answer += f"{i}. {facility.facility_id}: {facility.reasons[0] if facility.reasons else 'No reason provided'}\n"
+                location_str = f" ({facility.location})" if facility.location else ""
+                answer += f"{i}. {facility.facility_name}{location_str}: {facility.reasons[0] if facility.reasons else 'No reason provided'}\n"
                 
                 # Reuse existing citations
                 if facility.citations:
                     citations.extend(facility.citations[:2])
+    
+    elif intent == "verified":
+        # Verified facilities query
+        verified = [f for f in selected_facilities if f.status == "VERIFIED"]
+        
+        if not verified:
+            answer = "No verified facilities found in the available data."
+            # Add citation from first facility to show data exists
+            if selected_facilities:
+                facility = selected_facilities[0]
+                if facility.citations:
+                    citations.append(facility.citations[0])
+        else:
+            answer = f"Found {len(verified)} verified facilities:\n\n"
+            for i, facility in enumerate(verified[:10], 1):
+                caps = facility.extracted_capabilities
+                location_str = f" ({facility.location})" if facility.location else ""
+                answer += f"{i}. {facility.facility_name}{location_str}\n"
+                
+                # Add services if available
+                if caps.services:
+                    answer += f"   Services: {', '.join(caps.services[:3])}"
+                    if len(caps.services) > 3:
+                        answer += f" (+{len(caps.services) - 3} more)"
+                    answer += "\n"
+                
+                # Add equipment if available
+                if caps.equipment:
+                    answer += f"   Equipment: {', '.join(caps.equipment[:3])}"
+                    if len(caps.equipment) > 3:
+                        answer += f" (+{len(caps.equipment) - 3} more)"
+                    answer += "\n"
+                
+                answer += "\n"
+                
+                # Reuse existing citations
+                if facility.citations:
+                    citations.extend(facility.citations[:1])
+    
+    elif intent == "all_facilities":
+        # All facilities query - show all regardless of status
+        if not selected_facilities:
+            answer = "No facilities found in the available data."
+        else:
+            # Group by status
+            by_status = {}
+            for facility in selected_facilities:
+                status = facility.status
+                if status not in by_status:
+                    by_status[status] = []
+                by_status[status].append(facility)
+            
+            answer = f"Found {len(selected_facilities)} facilities:\n\n"
+            
+            # Show each status group
+            for status in ["VERIFIED", "INCOMPLETE", "SUSPICIOUS"]:
+                if status in by_status:
+                    facilities_in_status = by_status[status]
+                    answer += f"**{status}** ({len(facilities_in_status)} facilities):\n"
+                    
+                    for i, facility in enumerate(facilities_in_status[:10], 1):
+                        caps = facility.extracted_capabilities
+                        location_str = f" ({facility.location})" if facility.location else ""
+                        answer += f"{i}. {facility.facility_name}{location_str}\n"
+                        
+                        # Add services if available
+                        if caps.services:
+                            answer += f"   Services: {', '.join(caps.services[:3])}"
+                            if len(caps.services) > 3:
+                                answer += f" (+{len(caps.services) - 3} more)"
+                            answer += "\n"
+                        
+                        # Add equipment if available
+                        if caps.equipment:
+                            answer += f"   Equipment: {', '.join(caps.equipment[:3])}"
+                            if len(caps.equipment) > 3:
+                                answer += f" (+{len(caps.equipment) - 3} more)"
+                            answer += "\n"
+                        
+                        # Reuse existing citations
+                        if facility.citations:
+                            citations.extend(facility.citations[:1])
+                    
+                    answer += "\n"
     
     elif intent == "capability":
         # Capability search query
@@ -344,7 +435,8 @@ def generate_fallback_answer(
             answer = f"Found {len(matching_facilities)} facilities with matching capabilities:\n\n"
             for i, facility in enumerate(matching_facilities[:5], 1):
                 caps = facility.extracted_capabilities
-                answer += f"{i}. {facility.facility_id}\n"
+                location_str = f" ({facility.location})" if facility.location else ""
+                answer += f"{i}. {facility.facility_name}{location_str}\n"
                 answer += f"   Services: {', '.join(caps.services[:3])}\n"
                 answer += f"   Equipment: {', '.join(caps.equipment[:3])}\n"
                 

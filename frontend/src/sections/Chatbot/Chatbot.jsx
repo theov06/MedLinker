@@ -1,36 +1,190 @@
 // Chatbot.jsx - Database Consultation Interface
-import { Send, Database, Zap, Cpu } from "lucide-react";
-import { useState } from "react";
+import { Send, Database, Zap, Cpu, Save, Upload, Trash2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { apiService } from "../../services/api";
+import { formatAnswer, formatCitations, enhanceAnswer } from "../../utils/responseFormatter";
+import { createFacilityNameMap, createRegionNameMap, enhanceAnswerWithNames } from "../../utils/facilityNameMapper";
+
+const STORAGE_KEY = 'medlinker_chat_history';
 
 export function Chatbot() {
-    const [messages, setMessages] = useState([
-        { id: 1, sender: 'bot', text: 'Hello. I can help you query the healthcare facility database. Ask about bed capacity, equipment status, or doctor availability.', timestamp: '14:30' },
-        { id: 2, sender: 'user', text: 'Show facilities in California with ICU bed occupancy below 60%', timestamp: '14:31' },
-        { id: 3, sender: 'system', text: 'Query executed: SELECT * FROM facilities WHERE state = "CA" AND icu_occupancy < 60', timestamp: '14:31' },
-        { id: 4, sender: 'bot', text: 'Found 12 facilities in California with ICU occupancy < 60%:\n1. Stanford Hospital - 48% occupancy\n2. UCLA Medical - 52%\n3. Cedars-Sinai - 55%\n...', timestamp: '14:31' },
-    ]);
+    const initialMessage = { 
+        id: 1, 
+        sender: 'bot', 
+        text: '👋 Hello! I\'m your Healthcare Facility Assistant.\n\nI can help you:\n• Find regions with critical healthcare gaps\n• Identify facilities offering specific services\n• Analyze medical desert scores\n• Discover missing healthcare capabilities\n\nAsk me anything about healthcare facilities and regions!', 
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+    };
+
+    const [messages, setMessages] = useState([initialMessage]);
     const [input, setInput] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [facilitiesCount, setFacilitiesCount] = useState(0);
+    const [regionsCount, setRegionsCount] = useState(0);
+    const [facilities, setFacilities] = useState([]);
+    const [regions, setRegions] = useState([]);
+    const [facilityNameMap, setFacilityNameMap] = useState(new Map());
+    const [regionNameMap, setRegionNameMap] = useState(new Map());
+    const [saveStatus, setSaveStatus] = useState('');
+
+    useEffect(() => {
+        // Load facility and region counts
+        apiService.getFacilities()
+            .then(data => {
+                setFacilitiesCount(data.length);
+                setFacilities(data);
+                setFacilityNameMap(createFacilityNameMap(data));
+            })
+            .catch(err => console.error('Failed to load facilities:', err));
+        
+        apiService.getRegions()
+            .then(data => {
+                setRegionsCount(data.length);
+                setRegions(data);
+                setRegionNameMap(createRegionNameMap(data));
+            })
+            .catch(err => console.error('Failed to load regions:', err));
+
+        // Load saved conversation from localStorage
+        loadConversation();
+    }, []);
+
+    const saveConversation = () => {
+        try {
+            const conversationData = {
+                messages,
+                timestamp: new Date().toISOString(),
+                facilitiesCount,
+                regionsCount
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(conversationData));
+            setSaveStatus('Saved!');
+            setTimeout(() => setSaveStatus(''), 2000);
+        } catch (error) {
+            console.error('Failed to save conversation:', error);
+            setSaveStatus('Save failed');
+            setTimeout(() => setSaveStatus(''), 2000);
+        }
+    };
+
+    const loadConversation = () => {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const conversationData = JSON.parse(saved);
+                setMessages(conversationData.messages || [initialMessage]);
+            }
+        } catch (error) {
+            console.error('Failed to load conversation:', error);
+        }
+    };
+
+    const clearConversation = () => {
+        if (window.confirm('Are you sure you want to clear the conversation history?')) {
+            setMessages([initialMessage]);
+            localStorage.removeItem(STORAGE_KEY);
+            setSaveStatus('Cleared');
+            setTimeout(() => setSaveStatus(''), 2000);
+        }
+    };
+
+    const exportConversation = () => {
+        try {
+            const conversationData = {
+                messages,
+                timestamp: new Date().toISOString(),
+                facilitiesCount,
+                regionsCount
+            };
+            const dataStr = JSON.stringify(conversationData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `medlinker-chat-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+            setSaveStatus('Exported!');
+            setTimeout(() => setSaveStatus(''), 2000);
+        } catch (error) {
+            console.error('Failed to export conversation:', error);
+            setSaveStatus('Export failed');
+            setTimeout(() => setSaveStatus(''), 2000);
+        }
+    };
+
+    const importConversation = (event) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const conversationData = JSON.parse(e.target.result);
+                setMessages(conversationData.messages || [initialMessage]);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(conversationData));
+                setSaveStatus('Imported!');
+                setTimeout(() => setSaveStatus(''), 2000);
+            } catch (error) {
+                console.error('Failed to import conversation:', error);
+                setSaveStatus('Import failed');
+                setTimeout(() => setSaveStatus(''), 2000);
+            }
+        };
+        reader.readAsText(file);
+        event.target.value = ''; // Reset input
+    };
 
     const quickQueries = [
-        'List facilities with MRI machine shortage',
-        'Show bed occupancy by state',
-        'Find clinics with doctor ratio < 1:100',
-        'Equipment maintenance due this month'
+        'Which regions have the highest desert score?',
+        'What facilities offer surgery?',
+        'Show regions lacking C-section services',
+        'List all verified facilities'
     ];
 
-    const sendMessage = () => {
-        if (!input.trim()) return;
+    const sendMessage = async () => {
+        if (!input.trim() || loading) return;
 
-        const newMessages = [
-            ...messages,
-            { id: messages.length + 1, sender: 'user', text: input, timestamp: '14:32' },
-            { id: messages.length + 2, sender: 'system', text: `Query executed: ${input.toUpperCase().slice(0, 50)}...`, timestamp: '14:32' },
-            { id: messages.length + 3, sender: 'bot', text: 'Processing your request... I found 8 facilities matching your criteria.', timestamp: '14:32' },
-        ];
-
-        setMessages(newMessages);
+        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const userMessage = { id: messages.length + 1, sender: 'user', text: input, timestamp };
+        
+        setMessages(prev => [...prev, userMessage]);
+        setLoading(true);
         setInput('');
+
+        try {
+            // Call real backend API
+            const response = await apiService.askQuestion(input);
+            
+            // Use backend response directly (backend now includes facility names)
+            const botMessage = {
+                id: messages.length + 2,
+                sender: 'bot',
+                text: response.answer,
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                citations: response.citations,
+                traceId: response.trace_id
+            };
+
+            setMessages(prev => [...prev, botMessage]);
+        } catch (error) {
+            const errorMessage = {
+                id: messages.length + 2,
+                sender: 'bot',
+                text: `Error: ${error.message}. Please make sure the backend is running and data is available.`,
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+            setMessages(prev => [...prev, errorMessage]);
+        } finally {
+            setLoading(false);
+        }
     };
+
+    // Auto-save conversation after each message
+    useEffect(() => {
+        if (messages.length > 1) {
+            saveConversation();
+        }
+    }, [messages]);
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -56,8 +210,48 @@ export function Chatbot() {
                             </div>
                         </div>
                     </div>
-                    <div className="text-[13px] text-secondary">
-                        Real-time facility data • 2.4M records
+                    <div className="flex items-center gap-3">
+                        <div className="text-[13px] text-secondary">
+                            Real-time facility data • {facilitiesCount} facilities • {regionsCount} regions
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={saveConversation}
+                                className="px-3 py-1.5 text-[13px] border border-soft hover:bg-slate-50 transition-colors duration-150 flex items-center gap-1.5"
+                                title="Save conversation"
+                            >
+                                <Save size={14} />
+                                Save
+                            </button>
+                            <label className="px-3 py-1.5 text-[13px] border border-soft hover:bg-slate-50 transition-colors duration-150 flex items-center gap-1.5 cursor-pointer" title="Import conversation">
+                                <Upload size={14} />
+                                Import
+                                <input
+                                    type="file"
+                                    accept=".json"
+                                    onChange={importConversation}
+                                    className="hidden"
+                                />
+                            </label>
+                            <button
+                                onClick={exportConversation}
+                                className="px-3 py-1.5 text-[13px] border border-soft hover:bg-slate-50 transition-colors duration-150"
+                                title="Export conversation"
+                            >
+                                Export
+                            </button>
+                            <button
+                                onClick={clearConversation}
+                                className="px-3 py-1.5 text-[13px] border border-soft hover:bg-red-50 hover:text-red-600 transition-colors duration-150 flex items-center gap-1.5"
+                                title="Clear conversation"
+                            >
+                                <Trash2 size={14} />
+                                Clear
+                            </button>
+                            {saveStatus && (
+                                <span className="text-[13px] text-emerald-600 font-medium">{saveStatus}</span>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -67,27 +261,38 @@ export function Chatbot() {
                 {messages.map((msg) => (
                     <div
                         key={msg.id}
-                        className={`mb-4 ${msg.sender === 'user' ? 'text-right' : msg.sender === 'system' ? 'text-center' : ''}`}
+                        className={`mb-4 ${msg.sender === 'user' ? 'text-right' : ''}`}
                     >
-                        {msg.sender === 'system' ? (
-                            <div className="inline-block px-3 py-1 bg-slate-100 border border-soft">
-                                <span className="text-[12px] text-secondary italic">{msg.text}</span>
-                            </div>
-                        ) : (
-                            <div
-                                className={`inline-block max-w-[80%] p-3 ${msg.sender === 'user'
-                                    ? 'bg-primary text-white'
-                                    : 'bg-slate-100 border border-soft'
-                                    }`}
-                            >
-                                <div className="whitespace-pre-line text-[14px]">{msg.text}</div>
-                                <div className={`text-[11px] mt-1 ${msg.sender === 'user' ? 'text-white/70' : 'text-secondary'}`}>
-                                    {msg.timestamp}
+                        <div
+                            className={`inline-block max-w-[80%] p-3 ${msg.sender === 'user'
+                                ? 'bg-primary text-white'
+                                : 'bg-slate-100 border border-soft'
+                                }`}
+                        >
+                            <div className="whitespace-pre-line text-[14px]">{msg.text}</div>
+                            {msg.citations && msg.citations.length > 0 && (
+                                <div className="mt-2 pt-2 border-t border-slate-300">
+                                    <div className="text-[11px] font-semibold mb-1">Citations ({msg.citations.length}):</div>
+                                    {msg.citations.map((citation, idx) => (
+                                        <div key={idx} className="text-[11px] text-slate-600 mb-1">
+                                            • {citation.snippet}
+                                        </div>
+                                    ))}
                                 </div>
+                            )}
+                            <div className={`text-[11px] mt-1 ${msg.sender === 'user' ? 'text-white/70' : 'text-secondary'}`}>
+                                {msg.timestamp}
                             </div>
-                        )}
+                        </div>
                     </div>
                 ))}
+                {loading && (
+                    <div className="mb-4">
+                        <div className="inline-block max-w-[80%] p-3 bg-slate-100 border border-soft">
+                            <div className="text-[14px] text-secondary">Thinking...</div>
+                        </div>
+                    </div>
+                )}
             </div>
 
             {/* Quick Queries */}
@@ -126,10 +331,11 @@ export function Chatbot() {
                         </div>
                         <button
                             onClick={sendMessage}
-                            className="px-4 py-2 bg-primary text-white hover-primary transition-colors duration-150 flex items-center gap-2"
+                            disabled={loading || !input.trim()}
+                            className="px-4 py-2 bg-primary text-white hover-primary transition-colors duration-150 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             <Send size={16} />
-                            <span className="text-[13px] font-medium">Send Query</span>
+                            <span className="text-[13px] font-medium">{loading ? 'Sending...' : 'Send Query'}</span>
                         </button>
                     </div>
                 </div>

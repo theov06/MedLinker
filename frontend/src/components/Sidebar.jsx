@@ -1,9 +1,55 @@
 import { Home, Search, FileText, User, MessageSquare, Database } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+const STORAGE_KEY = 'medlinker_user_profile';
 
 export function Sidebar() {
     const navigate = useNavigate();
     const currentPath = window.location.pathname.split('/').pop() || 'home';
+    
+    const [userProfile, setUserProfile] = useState({
+        firstName: 'Sarah',
+        lastName: 'Mitchell',
+        email: 'sarah.mitchell@email.com'
+    });
+
+    // Load profile from localStorage
+    useEffect(() => {
+        loadProfile();
+        
+        // Listen for storage changes (when profile is saved)
+        const handleStorageChange = () => {
+            loadProfile();
+        };
+        
+        window.addEventListener('storage', handleStorageChange);
+        // Also listen for custom event from same window
+        window.addEventListener('profileUpdated', handleStorageChange);
+        
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+            window.removeEventListener('profileUpdated', handleStorageChange);
+        };
+    }, []);
+
+    const loadProfile = () => {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const data = JSON.parse(saved);
+                if (data.profile) {
+                    setUserProfile({
+                        firstName: data.profile.firstName || 'Sarah',
+                        lastName: data.profile.lastName || 'Mitchell',
+                        email: data.profile.email || 'sarah.mitchell@email.com'
+                    });
+                }
+            }
+        } catch (error) {
+            console.error('Failed to load profile:', error);
+        }
+    };
 
     const navItems = [
         { icon: Home, label: "Home", path: "home" },
@@ -28,15 +74,20 @@ export function Sidebar() {
         );
     };
 
+    const initials = `${userProfile.firstName[0]}${userProfile.lastName[0]}`;
+    const fullName = `${userProfile.firstName} ${userProfile.lastName}`;
+
     return (
         <aside className="w-[240px] h-full bg-panel border-r border-main flex flex-col">
 
             {/* Logo */}
             <div className="px-6 pt-6 pb-5">
                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-primary flex items-center justify-center text-white font-semibold text-[18px]">
-                        +
-                    </div>
+                    <img 
+                        src="/logo.png" 
+                        alt="MedLinker Logo" 
+                        className="w-16 h-16 object-contain"
+                    />
                     <span className="font-semibold text-[16px] tracking-tight">
                         MedLinker
                     </span>
@@ -62,11 +113,11 @@ export function Sidebar() {
             <div className="mt-auto border-t border-main p-6">
                 <div className="flex items-center gap-3">
                     <div className="w-9 h-9 bg-primary text-white flex items-center justify-center font-semibold text-[13px]">
-                        SM
+                        {initials}
                     </div>
                     <div className="leading-tight">
-                        <p className="text-[13px] font-medium">Sarah Mitchell</p>
-                        <p className="text-[12px] text-secondary">sarah.mitchell@email.com</p>
+                        <p className="text-[13px] font-medium">{fullName}</p>
+                        <p className="text-[12px] text-secondary">{userProfile.email}</p>
                     </div>
                 </div>
             </div>

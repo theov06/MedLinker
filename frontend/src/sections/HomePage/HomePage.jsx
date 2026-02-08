@@ -1,7 +1,59 @@
 // HomePage.jsx - Dashboard Summary
 import { Activity, AlertCircle, TrendingUp, Users } from "lucide-react";
+import { useState, useEffect } from "react";
+import { apiService } from "../../services/api";
 
 export function HomePage() {
+    const [facilities, setFacilities] = useState([]);
+    const [regions, setRegions] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [stats, setStats] = useState({
+        totalFacilities: 0,
+        criticalRegions: 0,
+        avgDesertScore: 0,
+        missingServices: 0
+    });
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    const loadData = async () => {
+        try {
+            setLoading(true);
+            const [facilitiesData, regionsData] = await Promise.all([
+                apiService.getFacilities(),
+                apiService.getRegions()
+            ]);
+
+            setFacilities(facilitiesData);
+            setRegions(regionsData);
+
+            // Calculate stats
+            const criticalRegions = regionsData.filter(r => r.desert_score >= 70).length;
+            const avgDesertScore = regionsData.length > 0
+                ? Math.round(regionsData.reduce((sum, r) => sum + r.desert_score, 0) / regionsData.length)
+                : 0;
+            
+            // Count unique missing services across all regions
+            const allMissingServices = new Set();
+            regionsData.forEach(r => {
+                r.missing_critical?.forEach(service => allMissingServices.add(service));
+            });
+
+            setStats({
+                totalFacilities: facilitiesData.length,
+                criticalRegions,
+                avgDesertScore,
+                missingServices: allMissingServices.size
+            });
+        } catch (error) {
+            console.error('Failed to load dashboard data:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const StatCard = ({ title, value, icon: Icon, change, isPositive }) => (
         <div className="bg-panel border border-main p-4">
             <div className="flex items-start justify-between">
@@ -47,95 +99,94 @@ export function HomePage() {
         </div>
     );
 
+    // Get top verified facilities
+    const topFacilities = facilities
+        .filter(f => f.status === 'VERIFIED')
+        .slice(0, 5);
+
+    // Get facilities needing attention (suspicious or incomplete)
+    const needsAttention = facilities
+        .filter(f => f.status === 'SUSPICIOUS' || f.status === 'INCOMPLETE')
+        .slice(0, 5);
+
+    // Get critical regions (high desert score)
+    const criticalRegions = regions
+        .filter(r => r.desert_score >= 70)
+        .sort((a, b) => b.desert_score - a.desert_score)
+        .slice(0, 5);
+
+    if (loading) {
+        return (
+            <div className="h-full flex items-center justify-center">
+                <div className="text-center">
+                    <div className="text-[16px] text-secondary">Loading dashboard...</div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="h-full overflow-y-auto p-6">
             {/* Header */}
             <div className="mb-6">
                 <h1 className="text-[20px] font-semibold mb-1">Dashboard Overview</h1>
-                <p className="text-[14px] text-secondary">Last updated: Today, 14:30</p>
+                <p className="text-[14px] text-secondary">Last updated: {new Date().toLocaleString()}</p>
             </div>
 
             {/* Key Metrics */}
             <div className="grid grid-cols-4 gap-4 mb-8">
                 <StatCard
                     title="Total Facilities"
-                    value="1,247"
+                    value={stats.totalFacilities}
                     icon={Activity}
-                    change="+2.3%"
                     isPositive={true}
                 />
                 <StatCard
-                    title="Critical Alerts"
-                    value="18"
+                    title="Critical Regions"
+                    value={stats.criticalRegions}
                     icon={AlertCircle}
-                    change="+3"
                     isPositive={false}
                 />
                 <StatCard
-                    title="Avg. Bed Occupancy"
-                    value="78%"
+                    title="Avg. Desert Score"
+                    value={`${stats.avgDesertScore}%`}
                     icon={TrendingUp}
-                    change="-1.2%"
-                    isPositive={true}
+                    isPositive={stats.avgDesertScore < 50}
                 />
                 <StatCard
-                    title="Doctor Shortage"
-                    value="127"
+                    title="Missing Services"
+                    value={stats.missingServices}
                     icon={Users}
-                    change="+8"
                     isPositive={false}
                 />
             </div>
 
             {/* Main Content - Two Panels */}
             <div className="grid grid-cols-2 gap-6">
-                {/* Top Performing Facilities */}
+                {/* Top Verified Facilities */}
                 <div className="bg-panel border border-main">
                     <div className="p-4 border-b border-main">
-                        <h2 className="text-[16px] font-semibold">Top Performing Facilities</h2>
-                        <p className="text-[13px] text-secondary mt-1">Based on resource utilization score</p>
+                        <h2 className="text-[16px] font-semibold">Top Verified Facilities</h2>
+                        <p className="text-[13px] text-secondary mt-1">Facilities with complete and verified data</p>
                     </div>
                     <div className="p-2">
-                        <FacilityRow
-                            rank="1"
-                            name="Metropolitan General"
-                            location="New York, NY"
-                            metric="94/100"
-                            status="Optimal"
-                            isCritical={false}
-                        />
-                        <FacilityRow
-                            rank="2"
-                            name="Central Memorial"
-                            location="Chicago, IL"
-                            metric="91/100"
-                            status="Optimal"
-                            isCritical={false}
-                        />
-                        <FacilityRow
-                            rank="3"
-                            name="Westview Medical"
-                            location="Los Angeles, CA"
-                            metric="89/100"
-                            status="Good"
-                            isCritical={false}
-                        />
-                        <FacilityRow
-                            rank="4"
-                            name="Riverside Hospital"
-                            location="Austin, TX"
-                            metric="87/100"
-                            status="Good"
-                            isCritical={false}
-                        />
-                        <FacilityRow
-                            rank="5"
-                            name="Northwest Medical"
-                            location="Seattle, WA"
-                            metric="85/100"
-                            status="Good"
-                            isCritical={false}
-                        />
+                        {topFacilities.length > 0 ? (
+                            topFacilities.map((facility, idx) => (
+                                <FacilityRow
+                                    key={facility.facility_id}
+                                    rank={idx + 1}
+                                    name={facility.facility_name}
+                                    location={facility.location || `${facility.region}, ${facility.country}`}
+                                    metric={facility.confidence}
+                                    status="Verified"
+                                    isCritical={false}
+                                />
+                            ))
+                        ) : (
+                            <div className="p-4 text-center text-secondary text-[14px]">
+                                No verified facilities found
+                            </div>
+                        )}
                     </div>
                 </div>
 
@@ -143,52 +194,54 @@ export function HomePage() {
                 <div className="bg-panel border border-main">
                     <div className="p-4 border-b border-main">
                         <h2 className="text-[16px] font-semibold">Facilities Needing Attention</h2>
-                        <p className="text-[13px] text-secondary mt-1">Immediate resource allocation required</p>
+                        <p className="text-[13px] text-secondary mt-1">Incomplete or suspicious data requiring review</p>
                     </div>
                     <div className="p-2">
-                        <FacilityRow
-                            rank="1"
-                            name="Southside Clinic"
-                            location="Detroit, MI"
-                            metric="32/100"
-                            status="Critical"
-                            isCritical={true}
-                        />
-                        <FacilityRow
-                            rank="2"
-                            name="Valley Regional"
-                            location="Phoenix, AZ"
-                            metric="41/100"
-                            status="Critical"
-                            isCritical={true}
-                        />
-                        <FacilityRow
-                            rank="3"
-                            name="Appalachian Care"
-                            location="Charleston, WV"
-                            metric="45/100"
-                            status="High Risk"
-                            isCritical={true}
-                        />
-                        <FacilityRow
-                            rank="4"
-                            name="Midwest General"
-                            location="Kansas City, MO"
-                            metric="52/100"
-                            status="High Risk"
-                            isCritical={true}
-                        />
-                        <FacilityRow
-                            rank="5"
-                            name="Gulf Coast Medical"
-                            location="New Orleans, LA"
-                            metric="58/100"
-                            status="Moderate"
-                            isCritical={true}
-                        />
+                        {needsAttention.length > 0 ? (
+                            needsAttention.map((facility, idx) => (
+                                <FacilityRow
+                                    key={facility.facility_id}
+                                    rank={idx + 1}
+                                    name={facility.facility_name}
+                                    location={facility.location || `${facility.region}, ${facility.country}`}
+                                    metric={facility.confidence}
+                                    status={facility.status === 'SUSPICIOUS' ? 'Suspicious' : 'Incomplete'}
+                                    isCritical={true}
+                                />
+                            ))
+                        ) : (
+                            <div className="p-4 text-center text-secondary text-[14px]">
+                                All facilities verified
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
+
+            {/* Critical Regions Section */}
+            {criticalRegions.length > 0 && (
+                <div className="mt-6">
+                    <div className="bg-panel border border-main">
+                        <div className="p-4 border-b border-main">
+                            <h2 className="text-[16px] font-semibold">Critical Medical Desert Regions</h2>
+                            <p className="text-[13px] text-secondary mt-1">Regions with highest healthcare gaps (desert score ≥ 70)</p>
+                        </div>
+                        <div className="p-2">
+                            {criticalRegions.map((region, idx) => (
+                                <FacilityRow
+                                    key={`${region.country}-${region.region}`}
+                                    rank={idx + 1}
+                                    name={region.region}
+                                    location={region.country}
+                                    metric={`${region.desert_score}/100`}
+                                    status={region.desert_score >= 80 ? 'Critical' : 'High Risk'}
+                                    isCritical={true}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
