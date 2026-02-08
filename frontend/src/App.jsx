@@ -1,17 +1,25 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Sidebar } from './components/Sidebar';
+import { HomePage } from './sections/HomePage/HomePage';
+import { Finder } from './sections/Finder/Finder';
+import { Chatbot } from './sections/Chatbot/Chatbot';
+import { Profile } from './sections/Profile/Profile';
+
 export default function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="p-8 rounded-xl shadow-lg bg-white text-center">
-        <h1 className="text-4xl font-bold text-blue-600 mb-4">
-          ¡Hola Tailwind v4!
-        </h1>
-        <p className="text-gray-700">
-          Este es tu primer componente con estilos de Tailwind v4 en React + Vite.
-        </p>
-        <button className="mt-6 px-6 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition">
-          Click aquí
-        </button>
+    <BrowserRouter>
+      <div className="h-screen flex bg-bg-main">
+        <Sidebar />
+        <main className="flex-1 overflow-hidden">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/finder" element={<Finder />} />
+            <Route path="/chatbot" element={<Chatbot />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+        </main>
       </div>
-    </div>
-  )
+    </BrowserRouter>
+  );
 }

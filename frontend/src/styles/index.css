@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* Brand */
+  --color-primary: #2BB59A;
+  --color-primary-hover: #239E87;
+  --color-primary-soft: #E8F6F3;
+
+
+  /* Backgrounds */
+  --color-bg-main: #F6F8FB;
+  --color-bg-panel: #FFFFFF;
+
+
+  /* Borders */
+  --color-border: #E6EAF0;
+  --color-border-soft: #EEF2F6;
+
+
+  /* Text */
+  --color-text-primary: #1F2937;
+  --color-text-secondary: #6B7280;
+  --color-text-placeholder: #9CA3AF;
+}
+
+
+body {
+  font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  background: var(--color-bg-main);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* Utility helpers */
+.border-soft {
+  border-color: var(--color-border-soft);
+}
+
+.border-main {
+  border-color: var(--color-border);
+}
+
+.bg-panel {
+  background: var(--color-bg-panel);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.bg-primary {
+  background: var(--color-primary);
+}
+
+.bg-primary-soft {
+  background: var(--color-primary-soft);
+}
+
+.text-primary-brand {
+  color: var(--color-primary);
+}
+
+.hover-primary:hover {
+  background: var(--color-primary-hover);
+}
