@@ -1,0 +1,11 @@
+{
+  "facility_id": "GH-ASH-042",
+  "facility_name": "Kumasi South Hospital",
+  "country": "Ghana",
+  "region": "Ashanti",
+  "source_id": "dataset_moh_2026_042",
+  "source_type": "dataset_row",
+  "source_text": "Kumasi South Hospital provides basic healthcare. Services: outpatient consultation, minor wound care, immunization, family planning. Staff: 3 doctors, 8 nurses, 1 midwife. Equipment: basic examination tools, vaccine refrigerator. Open weekdays 7am-3pm. No emergency services after hours. Patients requiring surgery or advanced care referred to Komfo Anokye Teaching Hospital.",
+  "source_url": null,
+  "timestamp": "2026-01-15T09:00:00Z"
+}

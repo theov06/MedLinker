@@ -1,0 +1,71 @@
+{
+  "facility_id": "GH-ACC-001",
+  "extracted_capabilities": {
+    "services": [
+      "General Surgery",
+      "Cardiothoracic Surgery",
+      "Pediatric Care",
+      "NICU",
+      "Maternity Services",
+      "C-Section",
+      "Outpatient Clinics",
+      "Emergency Services",
+      "Laboratory Services"
+    ],
+    "equipment": [
+      "CT Scanner",
+      "MRI Machine",
+      "X-ray Units",
+      "Ultrasound Machines",
+      "Operating Theaters"
+    ],
+    "staffing": [
+      "Specialist Doctors",
+      "Surgeons",
+      "Pediatricians",
+      "Obstetricians",
+      "Registered Nurses",
+      "Anesthesiologists",
+      "Laboratory Technicians",
+      "Radiographers"
+    ],
+    "hours": "Outpatient: Mon-Fri 8am-5pm, Emergency: 24/7",
+    "referral_capacity": "ADVANCED",
+    "emergency_capability": "YES"
+  },
+  "status": "VERIFIED",
+  "reasons": [
+    "All key capability fields present",
+    "Emergency services confirmed with 24/7 availability",
+    "Surgical capabilities supported by anesthesiologist staffing",
+    "Tertiary referral center with appropriate equipment"
+  ],
+  "confidence": "HIGH",
+  "citations": [
+    {
+      "source_id": "web_scrape_20260201_001",
+      "source_url": "https://korlebu.gov.gh/services",
+      "snippet": "General Surgery (24/7 emergency)",
+      "field": "services",
+      "start_char": 85,
+      "end_char": 116
+    },
+    {
+      "source_id": "web_scrape_20260201_001",
+      "source_url": "https://korlebu.gov.gh/services",
+      "snippet": "15 anesthesiologists on rotation",
+      "field": "staffing",
+      "start_char": 520,
+      "end_char": 553
+    },
+    {
+      "source_id": "web_scrape_20260201_001",
+      "source_url": "https://korlebu.gov.gh/services",
+      "snippet": "We accept referrals from all district hospitals across Ghana for complex cases requiring tertiary care.",
+      "field": "referral_capacity",
+      "start_char": 620,
+      "end_char": 724
+    }
+  ],
+  "trace_id": "trace_demo_golden"
+}
